@@ -7,7 +7,8 @@ import { FadeIn } from "@/components/animations";
 interface FormData {
   name: string;
   email: string;
-  company: string;
+  phone: string;
+  service: string;
   message: string;
 }
 
@@ -15,16 +16,18 @@ export default function ContactForm() {
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
-    company: "",
+    phone: "",
+    service: "",
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [error, setError] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
   const successRef = useRef<HTMLDivElement>(null);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     setFormData((prev) => ({
       ...prev,
@@ -35,24 +38,39 @@ export default function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError("");
 
-    // Simular envío
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-    // Animación de éxito
-    gsap.to(formRef.current, {
-      opacity: 0,
-      y: -20,
-      duration: 0.3,
-      onComplete: () => {
-        setIsSuccess(true);
-        gsap.fromTo(
-          successRef.current,
-          { opacity: 0, scale: 0.8 },
-          { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)" }
-        );
-      },
-    });
+      if (!response.ok) {
+        throw new Error("Error al enviar el mensaje");
+      }
+
+      // Animación de éxito
+      gsap.to(formRef.current, {
+        opacity: 0,
+        y: -20,
+        duration: 0.3,
+        onComplete: () => {
+          setIsSuccess(true);
+          gsap.fromTo(
+            successRef.current,
+            { opacity: 0, scale: 0.8 },
+            { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)" }
+          );
+        },
+      });
+    } catch (err) {
+      setError("Hubo un error al enviar tu mensaje. Por favor intenta de nuevo.");
+      setIsSubmitting(false);
+    }
   };
 
   const inputClasses =
@@ -79,7 +97,7 @@ export default function ContactForm() {
             onClick={() => {
               setIsSuccess(false);
               setIsSubmitting(false);
-              setFormData({ name: "", email: "", company: "", message: "" });
+              setFormData({ name: "", email: "", phone: "", service: "", message: "" });
             }}
             className="mt-8 rounded-full border border-cream/20 px-6 py-3 text-cream/60 transition-all hover:border-lime-green hover:text-lime-green"
           >
@@ -148,19 +166,41 @@ export default function ContactForm() {
             </div>
           </div>
 
-          {/* Company */}
+          {/* Phone */}
           <div className="mt-6">
             <label className="mb-2 block text-sm font-medium text-cream/60">
-              Empresa
+              Teléfono
             </label>
             <input
-              type="text"
-              name="company"
-              value={formData.company}
+              type="tel"
+              name="phone"
+              value={formData.phone}
               onChange={handleChange}
-              placeholder="Nombre de tu empresa"
+              placeholder="+502 1234 5678"
               className={inputClasses}
             />
+          </div>
+
+          {/* Service */}
+          <div className="mt-6">
+            <label className="mb-2 block text-sm font-medium text-cream/60">
+              Servicio de Interés
+            </label>
+            <select
+              name="service"
+              value={formData.service}
+              onChange={handleChange}
+              className={inputClasses}
+            >
+              <option value="">Selecciona un servicio</option>
+              <option value="Marketing Digital">Marketing Digital</option>
+              <option value="Diseño Web">Diseño Web</option>
+              <option value="SEO & Analytics">SEO & Analytics</option>
+              <option value="Redes Sociales">Redes Sociales</option>
+              <option value="Email Marketing">Email Marketing</option>
+              <option value="Consultoría">Consultoría</option>
+              <option value="Otro">Otro</option>
+            </select>
           </div>
 
           {/* Message */}
@@ -178,6 +218,13 @@ export default function ContactForm() {
               className={`${inputClasses} resize-none`}
             />
           </div>
+
+          {/* Error Message */}
+          {error && (
+            <div className="mt-6 rounded-lg border border-red-500/50 bg-red-500/10 p-4 text-center text-sm text-red-400">
+              {error}
+            </div>
+          )}
 
           {/* Submit */}
           <button
