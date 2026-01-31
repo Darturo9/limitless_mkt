@@ -78,7 +78,7 @@ export default function Footer() {
             <FadeIn>
               <a href="#" className="flex items-center">
                 <img
-                  src="/images/logos/limitless-logo.png"
+                  src="/images/logos/limitless-logo-blanco.png"
                   alt="Limitless MKT"
                   className="h-8 w-auto sm:h-10"
                 />

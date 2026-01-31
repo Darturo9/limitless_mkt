@@ -83,7 +83,7 @@ export default function LoadingScreen() {
       {/* Logo animado */}
       <div ref={textRef} className="mb-6 sm:mb-8">
         <img
-          src="/images/logos/limitless-logo.png"
+          src="/images/logos/limitless-logo-blanco.png"
           alt="Limitless MKT"
           className="h-16 w-auto sm:h-24 md:h-32"
         />
