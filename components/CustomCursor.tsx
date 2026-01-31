@@ -36,7 +36,7 @@ export default function CustomCursor() {
           gsap.to(cursor, {
             x: lastX,
             y: lastY,
-            duration: 0.5,
+            duration: 0.3,
             ease: "power2.out",
           });
 
