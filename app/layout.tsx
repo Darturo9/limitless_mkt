@@ -5,6 +5,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/CustomCursor";
 import Navbar from "@/components/Navbar";
 import LoadingScreen from "@/components/LoadingScreen";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,6 +51,7 @@ export default function RootLayout({
           <Navbar />
           {children}
         </SmoothScroll>
+        <SpeedInsights />
       </body>
     </html>
   );
