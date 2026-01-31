@@ -93,7 +93,7 @@ export default function ContactForm() {
   return (
     <section id="contacto" className="px-6 py-24">
       <FadeIn className="mb-4 text-center">
-        <span className="text-sm font-medium uppercase tracking-widest text-purple">
+        <span className="text-sm font-medium uppercase tracking-widest text-lime-green">
           Contacto
         </span>
       </FadeIn>

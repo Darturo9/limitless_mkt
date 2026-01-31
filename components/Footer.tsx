@@ -85,8 +85,12 @@ export default function Footer() {
           {/* Brand Column */}
           <div className="lg:col-span-2">
             <FadeIn>
-              <a href="#" className="text-2xl sm:text-3xl font-bold text-lime-green">
-                LIMITLESS
+              <a href="#" className="flex items-center">
+                <img
+                  src="/images/logos/limitless-logo.png"
+                  alt="Limitless MKT"
+                  className="h-8 w-auto sm:h-10"
+                />
               </a>
               <p className="mt-3 sm:mt-4 max-w-sm text-sm sm:text-base text-cream/60">
                 Transformamos tu presencia digital con estrategias innovadoras.

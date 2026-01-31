@@ -14,25 +14,25 @@ const projects = [
     title: "Brand Identity Suite",
     category: "Branding",
     description: "Identidad visual completa para startup de tecnología financiera.",
-    color: "purple" as const,
+    color: "neon-yellow" as const,
   },
   {
     title: "Social Media Campaign",
     category: "Marketing Digital",
     description: "Campaña viral que alcanzó 2M+ de impresiones en 30 días.",
-    color: "neon-yellow" as const,
+    color: "lime-green" as const,
   },
   {
     title: "SEO Transformation",
     category: "SEO",
     description: "De página 10 a top 3 en Google para keywords competitivas.",
-    color: "lime-green" as const,
+    color: "neon-yellow" as const,
   },
   {
     title: "App Launch Strategy",
     category: "Marketing Digital",
     description: "Lanzamiento exitoso con 50K descargas en la primera semana.",
-    color: "purple" as const,
+    color: "lime-green" as const,
   },
   {
     title: "Corporate Website",
@@ -46,7 +46,7 @@ export default function ProjectsSection() {
   return (
     <section id="proyectos" className="px-6 py-24">
       <FadeIn className="mb-4 text-center">
-        <span className="text-sm font-medium uppercase tracking-widest text-purple">
+        <span className="text-sm font-medium uppercase tracking-widest text-neon-yellow">
           Portfolio
         </span>
       </FadeIn>

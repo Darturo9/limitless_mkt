@@ -19,7 +19,7 @@ const testimonials = [
     content:
       "El equipo de Limitless entiende perfectamente las necesidades del negocio. Su estrategia de SEO nos llevó al top 3 de Google en tiempo récord.",
     rating: 5,
-    color: "purple",
+    color: "neon-yellow",
   },
   {
     name: "Ana Martínez",
@@ -27,7 +27,7 @@ const testimonials = [
     content:
       "Profesionales, creativos y orientados a resultados. Nuestra tienda online aumentó las ventas un 200% después de trabajar con ellos.",
     rating: 5,
-    color: "neon-yellow",
+    color: "lime-green",
   },
   {
     name: "Roberto Sánchez",
@@ -35,7 +35,7 @@ const testimonials = [
     content:
       "La mejor inversión que hemos hecho en marketing. El diseño web que crearon es impresionante y convierte visitantes en clientes.",
     rating: 5,
-    color: "lime-green",
+    color: "neon-yellow",
   },
 ];
 
@@ -128,7 +128,7 @@ export default function TestimonialsSection() {
   return (
     <section className="px-4 sm:px-6 py-16 sm:py-24">
       <FadeIn className="mb-3 sm:mb-4 text-center">
-        <span className="text-xs sm:text-sm font-medium uppercase tracking-widest text-purple">
+        <span className="text-xs sm:text-sm font-medium uppercase tracking-widest text-lime-green">
           Testimonios
         </span>
       </FadeIn>

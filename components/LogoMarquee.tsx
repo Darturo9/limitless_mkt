@@ -5,13 +5,13 @@ import Marquee from "./Marquee";
 // Logos placeholder - estos se pueden reemplazar con logos reales
 const clients = [
   { name: "TechCorp", color: "lime-green" },
-  { name: "Innovate", color: "purple" },
-  { name: "Digital Plus", color: "neon-yellow" },
-  { name: "StartupX", color: "lime-green" },
-  { name: "MediaFlow", color: "purple" },
+  { name: "Innovate", color: "neon-yellow" },
+  { name: "Digital Plus", color: "lime-green" },
+  { name: "StartupX", color: "neon-yellow" },
+  { name: "MediaFlow", color: "lime-green" },
   { name: "BrandPro", color: "neon-yellow" },
   { name: "GrowthLab", color: "lime-green" },
-  { name: "NextLevel", color: "purple" },
+  { name: "NextLevel", color: "neon-yellow" },
 ];
 
 export default function LogoMarquee() {

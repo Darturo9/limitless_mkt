@@ -61,8 +61,12 @@ export default function Navbar() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6">
           {/* Logo */}
           <MagneticButton strength={0.3}>
-            <a href="#" className="text-2xl font-bold text-lime-green">
-              LIMITLESS
+            <a href="#" className="flex items-center">
+              <img
+                src="/images/logos/limitless-logo.png"
+                alt="Limitless MKT"
+                className="h-10 w-auto sm:h-12 md:h-14"
+              />
             </a>
           </MagneticButton>
 

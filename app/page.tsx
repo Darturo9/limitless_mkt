@@ -11,6 +11,8 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import ContactForm from "@/components/ContactForm";
 import AnimatedGradient from "@/components/AnimatedGradient";
 import Footer from "@/components/Footer";
+import RocketAnimation from "@/components/RocketAnimation";
+import FloatingRocket from "@/components/FloatingRocket";
 
 export default function Home() {
   return (
@@ -23,8 +25,11 @@ export default function Home() {
 
       {/* Hero Section */}
       <section id="inicio" className="relative flex min-h-screen flex-col items-center justify-center px-4 sm:px-6 pt-24 sm:pt-20 pb-20">
+        {/* Floating Rocket */}
+        <FloatingRocket />
+
         <FadeIn direction="none" duration={1}>
-          <span className="mb-4 inline-block rounded-full bg-purple/20 px-3 py-1.5 text-xs sm:text-sm text-purple text-center">
+          <span className="mb-4 inline-block rounded-full bg-lime-green/20 px-3 py-1.5 text-xs sm:text-sm text-lime-green text-center">
             Marketing Digital Sin Límites
           </span>
         </FadeIn>
@@ -53,7 +58,7 @@ export default function Home() {
             </a>
             <a
               href="#proyectos"
-              className="rounded-full border-2 border-purple px-6 sm:px-8 py-3 sm:py-4 font-semibold text-purple transition-all hover:bg-purple hover:text-white text-center text-sm sm:text-base"
+              className="rounded-full border-2 border-cream/30 px-6 sm:px-8 py-3 sm:py-4 font-semibold text-cream transition-all hover:bg-cream hover:text-black text-center text-sm sm:text-base"
             >
               Ver Proyectos
             </a>
@@ -88,7 +93,9 @@ export default function Home() {
           direction="up"
         >
           <div className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-6 sm:p-8 transition-all duration-300 hover:border-lime-green/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-lime-green/10">
-            <div className="mb-3 sm:mb-4 text-3xl sm:text-4xl transition-transform duration-300 group-hover:scale-110">🚀</div>
+            <div className="mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110">
+              <RocketAnimation className="h-12 w-12 sm:h-16 sm:w-16" />
+            </div>
             <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold text-lime-green">
               Marketing Digital
             </h3>
@@ -98,9 +105,9 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-6 sm:p-8 transition-all duration-300 hover:border-purple/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-purple/10">
+          <div className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-6 sm:p-8 transition-all duration-300 hover:border-neon-yellow/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-neon-yellow/10">
             <div className="mb-3 sm:mb-4 text-3xl sm:text-4xl transition-transform duration-300 group-hover:scale-110">🎨</div>
-            <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold text-purple">
+            <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold text-neon-yellow">
               Diseño Web
             </h3>
             <p className="text-sm sm:text-base text-cream/60">
@@ -144,7 +151,7 @@ export default function Home() {
             <CountUp
               end={98}
               suffix="%"
-              className="text-4xl sm:text-5xl font-bold text-purple md:text-6xl"
+              className="text-4xl sm:text-5xl font-bold text-neon-yellow md:text-6xl"
             />
             <p className="mt-2 text-sm sm:text-base text-cream/60">Clientes Satisfechos</p>
           </FadeIn>

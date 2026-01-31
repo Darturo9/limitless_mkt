@@ -75,23 +75,18 @@ export default function LoadingScreen() {
 
   if (!isLoading) return null;
 
-  const brandName = "LIMITLESS";
-
   return (
     <div
       ref={containerRef}
       className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-dark-blue px-4"
     >
       {/* Logo animado */}
-      <div ref={textRef} className="mb-6 sm:mb-8 flex">
-        {brandName.split("").map((letter, index) => (
-          <span
-            key={index}
-            className="letter text-3xl sm:text-5xl font-bold text-lime-green md:text-7xl"
-          >
-            {letter}
-          </span>
-        ))}
+      <div ref={textRef} className="mb-6 sm:mb-8">
+        <img
+          src="/images/logos/limitless-logo.png"
+          alt="Limitless MKT"
+          className="h-16 w-auto sm:h-24 md:h-32"
+        />
       </div>
 
       {/* Barra de progreso */}
