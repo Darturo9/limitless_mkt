@@ -13,6 +13,7 @@ import AnimatedGradient from "@/components/AnimatedGradient";
 import Footer from "@/components/Footer";
 import RocketAnimation from "@/components/RocketAnimation";
 import FloatingRocket from "@/components/FloatingRocket";
+import { Palette, TrendingUp } from "lucide-react";
 
 export default function Home() {
   return (
@@ -106,7 +107,9 @@ export default function Home() {
           </div>
 
           <div className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-6 sm:p-8 transition-all duration-300 hover:border-neon-yellow/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-neon-yellow/10">
-            <div className="mb-3 sm:mb-4 text-3xl sm:text-4xl transition-transform duration-300 group-hover:scale-110">🎨</div>
+            <div className="mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110">
+              <Palette className="h-12 w-12 sm:h-16 sm:w-16 text-neon-yellow" strokeWidth={1.5} />
+            </div>
             <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold text-neon-yellow">
               Diseño Web
             </h3>
@@ -117,7 +120,9 @@ export default function Home() {
           </div>
 
           <div className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-6 sm:p-8 transition-all duration-300 hover:border-neon-yellow/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-neon-yellow/10">
-            <div className="mb-3 sm:mb-4 text-3xl sm:text-4xl transition-transform duration-300 group-hover:scale-110">📈</div>
+            <div className="mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110">
+              <TrendingUp className="h-12 w-12 sm:h-16 sm:w-16 text-neon-yellow" strokeWidth={1.5} />
+            </div>
             <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold text-neon-yellow">
               SEO & Analytics
             </h3>
