@@ -21,19 +21,34 @@ export default function CustomCursor() {
       return;
     }
 
-    const moveCursor = (e: MouseEvent) => {
-      gsap.to(cursor, {
-        x: e.clientX,
-        y: e.clientY,
-        duration: 0.5,
-        ease: "power2.out",
-      });
+    // Throttle para optimizar performance
+    let rafId: number | null = null;
+    let lastX = 0;
+    let lastY = 0;
 
-      gsap.to(cursorDot, {
-        x: e.clientX,
-        y: e.clientY,
-        duration: 0.1,
-      });
+    const moveCursor = (e: MouseEvent) => {
+      lastX = e.clientX;
+      lastY = e.clientY;
+
+      // Solo actualizar si no hay una animación pendiente
+      if (rafId === null) {
+        rafId = requestAnimationFrame(() => {
+          gsap.to(cursor, {
+            x: lastX,
+            y: lastY,
+            duration: 0.5,
+            ease: "power2.out",
+          });
+
+          gsap.to(cursorDot, {
+            x: lastX,
+            y: lastY,
+            duration: 0.1,
+          });
+
+          rafId = null;
+        });
+      }
     };
 
     const handleMouseOver = (e: MouseEvent) => {
@@ -52,12 +67,15 @@ export default function CustomCursor() {
       setIsHovering(isHoverTarget);
     };
 
-    window.addEventListener("mousemove", moveCursor);
+    window.addEventListener("mousemove", moveCursor, { passive: true });
     window.addEventListener("mouseover", handleMouseOver);
 
     return () => {
       window.removeEventListener("mousemove", moveCursor);
       window.removeEventListener("mouseover", handleMouseOver);
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+      }
     };
   }, []);
 

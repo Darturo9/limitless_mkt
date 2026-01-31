@@ -3,7 +3,6 @@ import {
   TextReveal,
   StaggerContainer,
   CountUp,
-  ScrollProgress,
 } from "@/components/animations";
 import LogoMarquee from "@/components/LogoMarquee";
 import ProjectsSection from "@/components/ProjectsSection";
@@ -20,9 +19,6 @@ export default function Home() {
     <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
       {/* Animated Background Gradient */}
       <AnimatedGradient />
-
-      {/* Scroll Progress Bar */}
-      <ScrollProgress color="var(--lime-green)" height={4} />
 
       {/* Hero Section */}
       <section id="inicio" className="relative flex min-h-screen flex-col items-center justify-center px-4 sm:px-6 pt-24 sm:pt-20 pb-20">
