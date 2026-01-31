@@ -65,7 +65,7 @@ export default function Navbar() {
               <img
                 src="/images/logos/limitless-logo-blanco.png"
                 alt="Limitless MKT"
-                className="h-10 w-auto sm:h-12 md:h-14"
+                className="h-12 w-auto sm:h-14 md:h-16 lg:h-18"
               />
             </a>
           </MagneticButton>
