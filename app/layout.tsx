@@ -19,8 +19,19 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Limitless MKT | Marketing Digital Sin Límites",
   description:
-    "Transformamos tu presencia digital con estrategias innovadoras y resultados medibles. Marketing digital, diseño web y SEO.",
-  keywords: ["marketing digital", "diseño web", "SEO", "publicidad digital", "redes sociales"],
+    "Transformamos tu presencia digital con estrategias innovadoras y resultados medibles. Sin límites, sin excusas.",
+  keywords: ["marketing digital", "diseño web", "SEO", "publicidad digital", "redes sociales", "Guatemala"],
+  openGraph: {
+    title: "Limitless MKT | Marketing Digital Sin Límites",
+    description: "Transformamos tu presencia digital con estrategias innovadoras y resultados medibles. Sin límites, sin excusas.",
+    type: "website",
+    locale: "es_GT",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Limitless MKT | Marketing Digital Sin Límites",
+    description: "Transformamos tu presencia digital con estrategias innovadoras y resultados medibles. Sin límites, sin excusas.",
+  },
 };
 
 export default function RootLayout({

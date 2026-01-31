@@ -84,8 +84,7 @@ export default function Footer() {
                 />
               </a>
               <p className="mt-3 sm:mt-4 max-w-sm text-sm sm:text-base text-cream/60">
-                Transformamos tu presencia digital con estrategias innovadoras.
-                Marketing sin límites para resultados extraordinarios.
+                Transformamos tu presencia digital con estrategias innovadoras y resultados medibles. Sin límites, sin excusas.
               </p>
 
               {/* Contact Info */}
