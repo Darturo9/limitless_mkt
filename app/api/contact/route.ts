@@ -2,18 +2,44 @@ import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
 export async function POST(request: Request) {
+  console.log("📧 [API Contact] Iniciando proceso de envío de email...");
+
   try {
-    const { name, email, phone, service, message } = await request.json();
+    const body = await request.json();
+    console.log("📝 [API Contact] Datos recibidos:", {
+      name: body.name,
+      email: body.email,
+      phone: body.phone,
+      service: body.service,
+      messageLength: body.message?.length
+    });
+
+    const { name, email, phone, service, message } = body;
 
     // Validación básica
     if (!name || !email || !message) {
+      console.error("❌ [API Contact] Validación fallida: Faltan campos requeridos");
       return NextResponse.json(
         { error: "Faltan campos requeridos" },
         { status: 400 }
       );
     }
 
+    // Verificar variables de entorno
+    console.log("🔑 [API Contact] Verificando credenciales SMTP...");
+    console.log("   SMTP_USER:", process.env.SMTP_USER ? "✅ Configurado" : "❌ NO configurado");
+    console.log("   SMTP_PASSWORD:", process.env.SMTP_PASSWORD ? "✅ Configurado" : "❌ NO configurado");
+
+    if (!process.env.SMTP_USER || !process.env.SMTP_PASSWORD) {
+      console.error("❌ [API Contact] Variables de entorno SMTP no configuradas");
+      return NextResponse.json(
+        { error: "Configuración de email no disponible" },
+        { status: 500 }
+      );
+    }
+
     // Configurar transporter de Gmail
+    console.log("⚙️ [API Contact] Configurando transporter de Gmail...");
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -21,6 +47,11 @@ export async function POST(request: Request) {
         pass: process.env.SMTP_PASSWORD,
       },
     });
+
+    // Verificar conexión
+    console.log("🔌 [API Contact] Verificando conexión SMTP...");
+    await transporter.verify();
+    console.log("✅ [API Contact] Conexión SMTP verificada correctamente");
 
     // Email para el cliente (confirmación)
     const clientMailOptions = {
@@ -125,18 +156,29 @@ export async function POST(request: Request) {
       `,
     };
 
-    // Enviar ambos emails
-    await transporter.sendMail(clientMailOptions);
-    await transporter.sendMail(internalMailOptions);
+    // Enviar email al cliente
+    console.log("📤 [API Contact] Enviando email de confirmación al cliente...");
+    const clientResult = await transporter.sendMail(clientMailOptions);
+    console.log("✅ [API Contact] Email al cliente enviado:", clientResult.messageId);
+
+    // Enviar email interno
+    console.log("📤 [API Contact] Enviando notificación interna...");
+    const internalResult = await transporter.sendMail(internalMailOptions);
+    console.log("✅ [API Contact] Email interno enviado:", internalResult.messageId);
+
+    console.log("🎉 [API Contact] Proceso completado exitosamente");
 
     return NextResponse.json(
       { message: "Emails enviados exitosamente" },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error al enviar email:", error);
+    console.error("❌ [API Contact] Error crítico:", error);
+    console.error("   Tipo de error:", error instanceof Error ? error.message : "Error desconocido");
+    console.error("   Stack:", error instanceof Error ? error.stack : "No disponible");
+
     return NextResponse.json(
-      { error: "Error al enviar el mensaje" },
+      { error: "Error al enviar el mensaje", details: error instanceof Error ? error.message : "Error desconocido" },
       { status: 500 }
     );
   }

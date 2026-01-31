@@ -40,7 +40,12 @@ export default function ContactForm() {
     setIsSubmitting(true);
     setError("");
 
+    console.log("📨 [ContactForm] Iniciando envío de formulario...");
+    console.log("📋 [ContactForm] Datos del formulario:", formData);
+
     try {
+      console.log("🌐 [ContactForm] Enviando petición a /api/contact...");
+
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
@@ -49,9 +54,20 @@ export default function ContactForm() {
         body: JSON.stringify(formData),
       });
 
+      console.log("📡 [ContactForm] Respuesta recibida:", {
+        status: response.status,
+        statusText: response.statusText,
+        ok: response.ok
+      });
+
+      const data = await response.json();
+      console.log("📦 [ContactForm] Data de respuesta:", data);
+
       if (!response.ok) {
-        throw new Error("Error al enviar el mensaje");
+        throw new Error(data.details || data.error || "Error al enviar el mensaje");
       }
+
+      console.log("✅ [ContactForm] Email enviado exitosamente");
 
       // Animación de éxito
       gsap.to(formRef.current, {
@@ -68,7 +84,10 @@ export default function ContactForm() {
         },
       });
     } catch (err) {
-      setError("Hubo un error al enviar tu mensaje. Por favor intenta de nuevo.");
+      console.error("❌ [ContactForm] Error al enviar:", err);
+      const errorMessage = err instanceof Error ? err.message : "Error desconocido";
+      console.error("   Mensaje de error:", errorMessage);
+      setError(`Hubo un error: ${errorMessage}. Por favor intenta de nuevo.`);
       setIsSubmitting(false);
     }
   };
