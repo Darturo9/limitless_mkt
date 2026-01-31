@@ -8,6 +8,8 @@ interface FormData {
   name: string;
   email: string;
   phone: string;
+  company: string;
+  instagram: string;
   service: string;
   message: string;
 }
@@ -17,6 +19,8 @@ export default function ContactForm() {
     name: "",
     email: "",
     phone: "",
+    company: "",
+    instagram: "",
     service: "",
     message: "",
   });
@@ -116,7 +120,7 @@ export default function ContactForm() {
             onClick={() => {
               setIsSuccess(false);
               setIsSubmitting(false);
-              setFormData({ name: "", email: "", phone: "", service: "", message: "" });
+              setFormData({ name: "", email: "", phone: "", company: "", instagram: "", service: "", message: "" });
             }}
             className="mt-8 rounded-full border border-cream/20 px-6 py-3 text-cream/60 transition-all hover:border-lime-green hover:text-lime-green"
           >
@@ -185,17 +189,48 @@ export default function ContactForm() {
             </div>
           </div>
 
-          {/* Phone */}
+          {/* Phone and Company */}
+          <div className="mt-6 grid gap-6 md:grid-cols-2">
+            <div>
+              <label className="mb-2 block text-sm font-medium text-cream/60">
+                Teléfono
+              </label>
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="+502 1234 5678"
+                className={inputClasses}
+              />
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm font-medium text-cream/60">
+                Nombre de la Empresa
+              </label>
+              <input
+                type="text"
+                name="company"
+                value={formData.company}
+                onChange={handleChange}
+                placeholder="Tu empresa"
+                className={inputClasses}
+              />
+            </div>
+          </div>
+
+          {/* Instagram */}
           <div className="mt-6">
             <label className="mb-2 block text-sm font-medium text-cream/60">
-              Teléfono
+              Instagram o Sitio Web del Negocio
             </label>
             <input
-              type="tel"
-              name="phone"
-              value={formData.phone}
+              type="text"
+              name="instagram"
+              value={formData.instagram}
               onChange={handleChange}
-              placeholder="+502 1234 5678"
+              placeholder="@tunegocio o www.tunegocio.com"
               className={inputClasses}
             />
           </div>

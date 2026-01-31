@@ -10,11 +10,13 @@ export async function POST(request: Request) {
       name: body.name,
       email: body.email,
       phone: body.phone,
+      company: body.company,
+      instagram: body.instagram,
       service: body.service,
       messageLength: body.message?.length
     });
 
-    const { name, email, phone, service, message } = body;
+    const { name, email, phone, company, instagram, service, message } = body;
 
     // Validación básica
     if (!name || !email || !message) {
@@ -82,8 +84,10 @@ export async function POST(request: Request) {
                 <p>Hemos recibido tu mensaje y nos pondremos en contacto contigo lo antes posible.</p>
                 <p><strong>Resumen de tu consulta:</strong></p>
                 <ul>
+                  <li><strong>Empresa:</strong> ${company || "No especificada"}</li>
                   <li><strong>Servicio:</strong> ${service || "No especificado"}</li>
                   <li><strong>Teléfono:</strong> ${phone || "No proporcionado"}</li>
+                  <li><strong>Instagram/Web:</strong> ${instagram || "No proporcionado"}</li>
                 </ul>
                 <p><strong>Tu mensaje:</strong></p>
                 <p style="background: #f5f5f5; padding: 15px; border-left: 3px solid #80c12f;">${message}</p>
@@ -106,9 +110,12 @@ export async function POST(request: Request) {
     };
 
     // Email para Limitless MKT (notificación interna)
+    // Puedes agregar múltiples emails separados por coma en SMTP_RECIPIENTS
+    const recipients = process.env.SMTP_RECIPIENTS || process.env.SMTP_USER;
+
     const internalMailOptions = {
       from: `"Web Limitless MKT" <${process.env.SMTP_USER}>`,
-      to: process.env.SMTP_USER, // O el email específico donde quieren recibir
+      to: recipients,
       subject: `Nueva consulta de ${name} - ${service || "Consulta general"}`,
       html: `
         <!DOCTYPE html>
@@ -138,6 +145,12 @@ export async function POST(request: Request) {
                 </div>
                 <div class="field">
                   <span class="label">Teléfono:</span> ${phone ? `<a href="tel:${phone}">${phone}</a>` : "No proporcionado"}
+                </div>
+                <div class="field">
+                  <span class="label">Empresa:</span> ${company || "No especificada"}
+                </div>
+                <div class="field">
+                  <span class="label">Instagram/Web:</span> ${instagram || "No proporcionado"}
                 </div>
                 <div class="field">
                   <span class="label">Servicio de interés:</span> ${service || "No especificado"}
