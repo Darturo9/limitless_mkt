@@ -11,7 +11,7 @@ import ContactForm from "@/components/ContactForm";
 import AnimatedGradient from "@/components/AnimatedGradient";
 import Footer from "@/components/Footer";
 import FloatingRocket from "@/components/FloatingRocket";
-import { Palette, TrendingUp } from "lucide-react";
+import { Palette, TrendingUp, Megaphone } from "lucide-react";
 
 export default function Home() {
   return (
@@ -90,42 +90,7 @@ export default function Home() {
         >
           <div className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-6 sm:p-8 transition-all duration-300 hover:border-lime-green/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-lime-green/10">
             <div className="mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110">
-              <svg
-                viewBox="0 0 64 64"
-                fill="none"
-                className="h-12 w-12 sm:h-16 sm:w-16"
-              >
-                {/* Megáfono */}
-                <path
-                  d="M20 18L38 12V52L20 46V18Z"
-                  fill="#80c12f"
-                  stroke="#80c12f"
-                  strokeWidth="2"
-                />
-                <circle cx="44" cy="32" r="6" fill="#ccff00" />
-                <path
-                  d="M16 24H12C10 24 8 26 8 28V36C8 38 10 40 12 40H16"
-                  fill="#80c12f"
-                  stroke="#80c12f"
-                  strokeWidth="2"
-                />
-                {/* Ondas de sonido */}
-                <path
-                  d="M52 24C52 24 54 28 54 32C54 36 52 40 52 40"
-                  stroke="#ccff00"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  className="animate-pulse"
-                />
-                <path
-                  d="M56 20C56 20 60 26 60 32C60 38 56 44 56 44"
-                  stroke="#ccff00"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  className="animate-pulse"
-                  style={{ animationDelay: "0.3s" }}
-                />
-              </svg>
+              <Megaphone className="h-12 w-12 sm:h-16 sm:w-16 text-lime-green" strokeWidth={1.5} />
             </div>
             <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold text-lime-green">
               Marketing Digital
