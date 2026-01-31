@@ -12,6 +12,7 @@ import AnimatedGradient from "@/components/AnimatedGradient";
 import Footer from "@/components/Footer";
 import RocketAnimation from "@/components/RocketAnimation";
 import FloatingRocket from "@/components/FloatingRocket";
+import MarketingAnimation from "@/components/MarketingAnimation";
 import { Palette, TrendingUp } from "lucide-react";
 
 export default function Home() {
@@ -91,7 +92,7 @@ export default function Home() {
         >
           <div className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-6 sm:p-8 transition-all duration-300 hover:border-lime-green/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-lime-green/10">
             <div className="mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110">
-              <RocketAnimation className="h-12 w-12 sm:h-16 sm:w-16" />
+              <MarketingAnimation className="h-12 w-12 sm:h-16 sm:w-16" />
             </div>
             <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold text-lime-green">
               Marketing Digital
