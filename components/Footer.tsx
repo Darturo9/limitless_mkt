@@ -80,7 +80,7 @@ export default function Footer() {
                 <img
                   src="/images/logos/limitless-logo-blanco.png"
                   alt="Limitless MKT"
-                  className="h-24 w-auto sm:h-28 md:h-32"
+                  className="h-16 w-auto sm:h-18 md:h-20"
                 />
               </a>
               <p className="mt-3 sm:mt-4 max-w-sm text-sm sm:text-base text-cream/60">
