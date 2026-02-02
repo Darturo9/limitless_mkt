@@ -247,13 +247,14 @@ export default function ContactForm() {
               className={inputClasses}
             >
               <option value="">Selecciona un servicio</option>
-              <option value="Marketing Digital">Marketing Digital</option>
-              <option value="Diseño Web">Diseño Web</option>
-              <option value="SEO & Analytics">SEO & Analytics</option>
-              <option value="Redes Sociales">Redes Sociales</option>
-              <option value="Email Marketing">Email Marketing</option>
-              <option value="Consultoría">Consultoría</option>
-              <option value="Otro">Otro</option>
+              <option value="Creación de Contenido">Creación de Contenido</option>
+              <option value="Manejo de Redes Sociales">Manejo de Redes Sociales</option>
+              <option value="Pauta Publicitaria (Meta/TikTok/Google Ads)">Pauta Publicitaria (Meta/TikTok/Google Ads)</option>
+              <option value="Contenido Audiovisual">Contenido Audiovisual</option>
+              <option value="Calendarización Estratégica">Calendarización Estratégica</option>
+              <option value="Reportes & Métricas">Reportes & Métricas</option>
+              <option value="Servicios Adicionales (Branding, Landing Pages, etc.)">Servicios Adicionales (Branding, Landing Pages, etc.)</option>
+              <option value="Consultoría 1 a 1">Consultoría 1 a 1</option>
             </select>
           </div>
 

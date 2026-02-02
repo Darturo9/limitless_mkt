@@ -5,13 +5,12 @@ import {
   CountUp,
 } from "@/components/animations";
 import LogoMarquee from "@/components/LogoMarquee";
-import ProjectsSection from "@/components/ProjectsSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import ContactForm from "@/components/ContactForm";
 import AnimatedGradient from "@/components/AnimatedGradient";
 import Footer from "@/components/Footer";
 import FloatingRocket from "@/components/FloatingRocket";
-import { Palette, TrendingUp, Megaphone } from "lucide-react";
+import { PenTool, Share2, Target, Video, Calendar, BarChart3 } from "lucide-react";
 
 export default function Home() {
   return (
@@ -53,10 +52,10 @@ export default function Home() {
               Empezar Ahora
             </a>
             <a
-              href="#proyectos"
+              href="#servicios"
               className="rounded-full border-2 border-cream/30 px-6 sm:px-8 py-3 sm:py-4 font-semibold text-cream transition-all hover:bg-cream hover:text-black text-center text-sm sm:text-base"
             >
-              Ver Proyectos
+              Ver Servicios
             </a>
           </div>
         </FadeIn>
@@ -84,53 +83,83 @@ export default function Home() {
         </FadeIn>
 
         <StaggerContainer
-          className="mx-auto grid max-w-6xl gap-4 sm:gap-6 md:grid-cols-3"
+          className="mx-auto grid max-w-6xl gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
           staggerDelay={0.15}
           direction="up"
         >
-          <div className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-6 sm:p-8 transition-all duration-300 hover:border-lime-green/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-lime-green/10">
+          <div className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-5 sm:p-6 transition-all duration-300 hover:border-lime-green/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-lime-green/10">
             <div className="mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110">
-              <Megaphone className="h-12 w-12 sm:h-16 sm:w-16 text-neon-yellow" strokeWidth={1.5} />
+              <PenTool className="h-12 w-12 sm:h-14 sm:w-14 text-neon-yellow" strokeWidth={1.5} />
             </div>
             <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold text-lime-green">
-              Marketing Digital
+              Creación de Contenido
             </h3>
             <p className="text-sm sm:text-base text-cream/60">
-              Estrategias personalizadas para hacer crecer tu negocio en el
-              mundo digital.
+              Contenido profesional para redes sociales con engagement y autoridad.
             </p>
           </div>
 
-          <div className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-6 sm:p-8 transition-all duration-300 hover:border-neon-yellow/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-neon-yellow/10">
+          <div className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-5 sm:p-6 transition-all duration-300 hover:border-neon-yellow/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-neon-yellow/10">
             <div className="mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110">
-              <Palette className="h-12 w-12 sm:h-16 sm:w-16 text-neon-yellow" strokeWidth={1.5} />
+              <Share2 className="h-12 w-12 sm:h-14 sm:w-14 text-neon-yellow" strokeWidth={1.5} />
             </div>
             <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold text-neon-yellow">
-              Diseño Web
+              Manejo de Redes Sociales
             </h3>
             <p className="text-sm sm:text-base text-cream/60">
-              Sitios web modernos y funcionales que convierten visitantes en
-              clientes.
+              Social Media Management completo con gestión diaria y reportes mensuales.
             </p>
           </div>
 
-          <div className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-6 sm:p-8 transition-all duration-300 hover:border-neon-yellow/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-neon-yellow/10">
+          <div className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-5 sm:p-6 transition-all duration-300 hover:border-neon-yellow/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-neon-yellow/10">
             <div className="mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110">
-              <TrendingUp className="h-12 w-12 sm:h-16 sm:w-16 text-neon-yellow" strokeWidth={1.5} />
+              <Target className="h-12 w-12 sm:h-14 sm:w-14 text-neon-yellow" strokeWidth={1.5} />
             </div>
             <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold text-neon-yellow">
-              SEO & Analytics
+              Pauta Publicitaria
             </h3>
             <p className="text-sm sm:text-base text-cream/60">
-              Posicionamiento orgánico y análisis de datos para decisiones
-              inteligentes.
+              Meta Ads, TikTok Ads y Google Ads con optimización continua y A/B testing.
+            </p>
+          </div>
+
+          <div className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-5 sm:p-6 transition-all duration-300 hover:border-lime-green/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-lime-green/10">
+            <div className="mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110">
+              <Video className="h-12 w-12 sm:h-14 sm:w-14 text-neon-yellow" strokeWidth={1.5} />
+            </div>
+            <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold text-lime-green">
+              Contenido Audiovisual
+            </h3>
+            <p className="text-sm sm:text-base text-cream/60">
+              Grabación profesional, podcasts y tomas con dron para tu marca.
+            </p>
+          </div>
+
+          <div className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-5 sm:p-6 transition-all duration-300 hover:border-neon-yellow/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-neon-yellow/10">
+            <div className="mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110">
+              <Calendar className="h-12 w-12 sm:h-14 sm:w-14 text-neon-yellow" strokeWidth={1.5} />
+            </div>
+            <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold text-neon-yellow">
+              Calendarización Estratégica
+            </h3>
+            <p className="text-sm sm:text-base text-cream/60">
+              Planificación mensual de contenido por objetivos y fechas comerciales.
+            </p>
+          </div>
+
+          <div className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-5 sm:p-6 transition-all duration-300 hover:border-neon-yellow/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-neon-yellow/10">
+            <div className="mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110">
+              <BarChart3 className="h-12 w-12 sm:h-14 sm:w-14 text-neon-yellow" strokeWidth={1.5} />
+            </div>
+            <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold text-neon-yellow">
+              Reportes & Métricas
+            </h3>
+            <p className="text-sm sm:text-base text-cream/60">
+              Análisis de resultados con KPI's claros y recomendaciones de mejora.
             </p>
           </div>
         </StaggerContainer>
       </section>
-
-      {/* Projects Section */}
-      <ProjectsSection />
 
       {/* Testimonials Section */}
       <TestimonialsSection />

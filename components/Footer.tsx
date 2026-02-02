@@ -14,15 +14,9 @@ const footerLinks = {
   ],
   empresa: [
     { label: "Sobre Nosotros", href: "#nosotros" },
-    { label: "Proyectos", href: "#proyectos" },
     { label: "Testimonios", href: "#testimonios" },
     { label: "Blog", href: "#blog" },
     { label: "Carreras", href: "#carreras" },
-  ],
-  legal: [
-    { label: "Política de Privacidad", href: "/privacidad" },
-    { label: "Términos de Servicio", href: "/terminos" },
-    { label: "Cookies", href: "/cookies" },
   ],
 };
 
@@ -131,6 +125,9 @@ export default function Footer() {
             </FadeIn>
           </div>
 
+          {/* Spacer - hidden on mobile */}
+          <div className="hidden lg:block" />
+
           {/* Services */}
           <div>
             <FadeIn delay={0.1}>
@@ -173,26 +170,6 @@ export default function Footer() {
             </FadeIn>
           </div>
 
-          {/* Legal */}
-          <div>
-            <FadeIn delay={0.3}>
-              <h4 className="mb-3 sm:mb-4 text-xs sm:text-sm font-semibold uppercase tracking-wider text-cream">
-                Legal
-              </h4>
-              <ul className="space-y-2 sm:space-y-3">
-                {footerLinks.legal.map((link) => (
-                  <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-xs sm:text-sm text-cream/50 transition-colors hover:text-lime-green"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </FadeIn>
-          </div>
         </div>
       </div>
 
