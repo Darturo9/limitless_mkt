@@ -88,24 +88,24 @@ export default function AnimatedGradient() {
 
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-      {/* Gradient 1 - Lime Green */}
+      {/* Gradient 1 - Lime Green - Hidden on mobile */}
       <div
         ref={gradient1Ref}
-        className="absolute -top-1/4 -left-1/4 h-[600px] w-[600px] rounded-full bg-lime-green/15 blur-[60px]"
+        className="hidden md:block absolute -top-1/4 -left-1/4 h-[600px] w-[600px] rounded-full bg-lime-green/15 blur-[60px]"
         style={{ willChange: "transform" }}
       />
 
-      {/* Gradient 2 - Neon Yellow */}
+      {/* Gradient 2 - Neon Yellow - Hidden on mobile */}
       <div
         ref={gradient2Ref}
-        className="absolute top-1/3 -right-1/4 h-[500px] w-[500px] rounded-full bg-neon-yellow/12 blur-[50px]"
+        className="hidden md:block absolute top-1/3 -right-1/4 h-[500px] w-[500px] rounded-full bg-neon-yellow/12 blur-[50px]"
         style={{ willChange: "transform" }}
       />
 
-      {/* Gradient 3 - Lime Green */}
+      {/* Gradient 3 - Lime Green - Hidden on mobile */}
       <div
         ref={gradient3Ref}
-        className="absolute -bottom-1/4 left-1/3 h-[400px] w-[400px] rounded-full bg-lime-green/10 blur-[40px]"
+        className="hidden md:block absolute -bottom-1/4 left-1/3 h-[400px] w-[400px] rounded-full bg-lime-green/10 blur-[40px]"
         style={{ willChange: "transform" }}
       />
     </div>
