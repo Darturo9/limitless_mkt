@@ -78,7 +78,7 @@ export default function LoadingScreen() {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-dark-blue px-4"
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black px-4"
     >
       {/* Logo animado */}
       <div ref={textRef} className="mb-6 sm:mb-8">

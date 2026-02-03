@@ -19,7 +19,7 @@
   --purple: #890df7;
 
   /* Semantic Colors */
-  --background: var(--dark-blue);
+  --background: var(--black);
   --foreground: var(--cream);
   --primary: var(--lime-green);
   --secondary: var(--purple);

@@ -74,6 +74,25 @@ export default function Home() {
       {/* Logo Marquee */}
       <LogoMarquee />
 
+      {/* About Us Section */}
+      <section id="nosotros" className="relative px-4 sm:px-6 py-16 sm:py-20">
+        <div className="mx-auto max-w-4xl">
+          <FadeIn className="mb-10 sm:mb-12 text-center">
+            <h2 className="text-3xl sm:text-4xl font-bold text-cream md:text-5xl">
+              Sobre <span className="text-neon-yellow">Nosotros</span>
+            </h2>
+          </FadeIn>
+
+          <FadeIn delay={0.2} direction="up">
+            <div className="rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-6 sm:p-10">
+              <p className="text-base sm:text-lg text-cream/80 leading-relaxed text-center">
+                En <span className="text-lime-green font-semibold">Limitless Marketing</span>, somos una agencia de marketing digital disruptiva y sin límites. Nos especializamos en transformar ideas en realidades extraordinarias, llevando las marcas al infinito y más allá. Nuestra misión es impulsar tu negocio hacia nuevos horizontes con estrategias personalizadas y resultados tangibles.
+              </p>
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
       {/* Services Section */}
       <section id="servicios" className="relative px-4 sm:px-6 py-16 sm:py-20">
         <FadeIn className="mb-10 sm:mb-16 text-center">
@@ -163,38 +182,6 @@ export default function Home() {
 
       {/* Testimonials Section */}
       <TestimonialsSection />
-
-      {/* Stats Section */}
-      <section className="relative bg-black/30 px-4 sm:px-6 py-12 sm:py-20">
-        <div className="mx-auto grid max-w-4xl grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-12 md:gap-20">
-          <FadeIn className="text-center">
-            <CountUp
-              end={150}
-              suffix="+"
-              className="text-4xl sm:text-5xl font-bold text-lime-green md:text-6xl"
-            />
-            <p className="mt-2 text-sm sm:text-base text-cream/60">Proyectos Completados</p>
-          </FadeIn>
-
-          <FadeIn delay={0.1} className="text-center">
-            <CountUp
-              end={98}
-              suffix="%"
-              className="text-4xl sm:text-5xl font-bold text-neon-yellow md:text-6xl"
-            />
-            <p className="mt-2 text-sm sm:text-base text-cream/60">Clientes Satisfechos</p>
-          </FadeIn>
-
-          <FadeIn delay={0.2} className="text-center">
-            <CountUp
-              end={5}
-              suffix="M+"
-              className="text-4xl sm:text-5xl font-bold text-neon-yellow md:text-6xl"
-            />
-            <p className="mt-2 text-sm sm:text-base text-cream/60">Alcance Mensual</p>
-          </FadeIn>
-        </div>
-      </section>
 
       {/* Contact Form */}
       <ContactForm />
