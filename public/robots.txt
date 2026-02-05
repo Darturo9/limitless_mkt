@@ -1,0 +1,8 @@
+# Robots.txt for Limitless Marketing
+# https://www.limitlessmarketing502.com
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.limitlessmarketing502.com/sitemap.xml

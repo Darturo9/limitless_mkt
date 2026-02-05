@@ -11,10 +11,11 @@ import AnimatedGradient from "@/components/AnimatedGradient";
 import Footer from "@/components/Footer";
 import FloatingRocket from "@/components/FloatingRocket";
 import { PenTool, Share2, Target, Video, Calendar, BarChart3 } from "lucide-react";
+import { FaGoogle, FaMeta, FaLinkedin, FaHubspot } from "react-icons/fa6";
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
+    <main className="relative min-h-screen bg-background text-foreground overflow-x-hidden" role="main">
       {/* Animated Background Gradient */}
       <AnimatedGradient />
 
@@ -75,10 +76,10 @@ export default function Home() {
       <LogoMarquee />
 
       {/* About Us Section */}
-      <section id="nosotros" className="relative px-4 sm:px-6 py-16 sm:py-20">
+      <section id="nosotros" aria-labelledby="nosotros-titulo" className="relative px-4 sm:px-6 py-16 sm:py-20">
         <div className="mx-auto max-w-4xl">
           <FadeIn className="mb-10 sm:mb-12 text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-cream md:text-5xl">
+            <h2 id="nosotros-titulo" className="text-3xl sm:text-4xl font-bold text-cream md:text-5xl">
               Sobre <span className="text-neon-yellow">Nosotros</span>
             </h2>
           </FadeIn>
@@ -94,9 +95,9 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="servicios" className="relative px-4 sm:px-6 py-16 sm:py-20">
+      <section id="servicios" aria-labelledby="servicios-titulo" className="relative px-4 sm:px-6 py-16 sm:py-20">
         <FadeIn className="mb-10 sm:mb-16 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-cream md:text-5xl">
+          <h2 id="servicios-titulo" className="text-3xl sm:text-4xl font-bold text-cream md:text-5xl">
             Nuestros <span className="text-neon-yellow">Servicios</span>
           </h2>
         </FadeIn>
@@ -106,8 +107,8 @@ export default function Home() {
           staggerDelay={0.15}
           direction="up"
         >
-          <div className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-5 sm:p-6 transition-all duration-300 hover:border-lime-green/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-lime-green/10">
-            <div className="mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110">
+          <article className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-5 sm:p-6 transition-all duration-300 hover:border-lime-green/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-lime-green/10">
+            <div className="mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110" aria-hidden="true">
               <PenTool className="h-12 w-12 sm:h-14 sm:w-14 text-neon-yellow" strokeWidth={1.5} />
             </div>
             <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold text-lime-green">
@@ -116,34 +117,34 @@ export default function Home() {
             <p className="text-sm sm:text-base text-cream/60">
               Contenido profesional para redes sociales con engagement y autoridad.
             </p>
-          </div>
+          </article>
 
-          <div className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-5 sm:p-6 transition-all duration-300 hover:border-neon-yellow/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-neon-yellow/10">
-            <div className="mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110">
+          <article className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-5 sm:p-6 transition-all duration-300 hover:border-neon-yellow/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-neon-yellow/10">
+            <div className="mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110" aria-hidden="true">
               <Share2 className="h-12 w-12 sm:h-14 sm:w-14 text-neon-yellow" strokeWidth={1.5} />
             </div>
-            <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold text-neon-yellow">
+            <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold text-lime-green">
               Manejo de Redes Sociales
             </h3>
             <p className="text-sm sm:text-base text-cream/60">
               Social Media Management completo con gestión diaria y reportes mensuales.
             </p>
-          </div>
+          </article>
 
-          <div className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-5 sm:p-6 transition-all duration-300 hover:border-neon-yellow/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-neon-yellow/10">
-            <div className="mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110">
+          <article className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-5 sm:p-6 transition-all duration-300 hover:border-neon-yellow/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-neon-yellow/10">
+            <div className="mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110" aria-hidden="true">
               <Target className="h-12 w-12 sm:h-14 sm:w-14 text-neon-yellow" strokeWidth={1.5} />
             </div>
-            <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold text-neon-yellow">
+            <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold text-lime-green">
               Pauta Publicitaria
             </h3>
             <p className="text-sm sm:text-base text-cream/60">
               Meta Ads, TikTok Ads y Google Ads con optimización continua y A/B testing.
             </p>
-          </div>
+          </article>
 
-          <div className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-5 sm:p-6 transition-all duration-300 hover:border-lime-green/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-lime-green/10">
-            <div className="mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110">
+          <article className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-5 sm:p-6 transition-all duration-300 hover:border-lime-green/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-lime-green/10">
+            <div className="mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110" aria-hidden="true">
               <Video className="h-12 w-12 sm:h-14 sm:w-14 text-neon-yellow" strokeWidth={1.5} />
             </div>
             <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold text-lime-green">
@@ -152,32 +153,62 @@ export default function Home() {
             <p className="text-sm sm:text-base text-cream/60">
               Grabación profesional, podcasts y tomas con dron para tu marca.
             </p>
-          </div>
+          </article>
 
-          <div className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-5 sm:p-6 transition-all duration-300 hover:border-neon-yellow/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-neon-yellow/10">
-            <div className="mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110">
+          <article className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-5 sm:p-6 transition-all duration-300 hover:border-neon-yellow/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-neon-yellow/10">
+            <div className="mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110" aria-hidden="true">
               <Calendar className="h-12 w-12 sm:h-14 sm:w-14 text-neon-yellow" strokeWidth={1.5} />
             </div>
-            <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold text-neon-yellow">
+            <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold text-lime-green">
               Calendarización Estratégica
             </h3>
             <p className="text-sm sm:text-base text-cream/60">
               Planificación mensual de contenido por objetivos y fechas comerciales.
             </p>
-          </div>
+          </article>
 
-          <div className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-5 sm:p-6 transition-all duration-300 hover:border-neon-yellow/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-neon-yellow/10">
-            <div className="mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110">
+          <article className="group rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-5 sm:p-6 transition-all duration-300 hover:border-neon-yellow/50 hover:-translate-y-2 hover:shadow-lg hover:shadow-neon-yellow/10">
+            <div className="mb-3 sm:mb-4 transition-transform duration-300 group-hover:scale-110" aria-hidden="true">
               <BarChart3 className="h-12 w-12 sm:h-14 sm:w-14 text-neon-yellow" strokeWidth={1.5} />
             </div>
-            <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold text-neon-yellow">
+            <h3 className="mb-2 sm:mb-3 text-lg sm:text-xl font-bold text-lime-green">
               Reportes & Métricas
             </h3>
             <p className="text-sm sm:text-base text-cream/60">
               Análisis de resultados con KPI's claros y recomendaciones de mejora.
             </p>
-          </div>
+          </article>
         </StaggerContainer>
+      </section>
+
+      {/* Certifications Section */}
+      <section id="certificaciones" aria-labelledby="certificaciones-titulo" className="relative px-4 sm:px-6 py-16 sm:py-20">
+        <FadeIn className="mb-10 sm:mb-12 text-center">
+          <h2 id="certificaciones-titulo" className="text-3xl sm:text-4xl font-bold text-cream md:text-5xl">
+            Respaldados por las <span className="text-neon-yellow">Certificaciones</span> de
+          </h2>
+        </FadeIn>
+
+        <FadeIn delay={0.2} direction="up">
+          <ul className="mx-auto max-w-2xl grid grid-cols-2 gap-4 sm:gap-6" role="list" aria-label="Certificaciones obtenidas">
+            <li className="flex flex-col items-center justify-center gap-2 rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-6 sm:p-8 transition-all duration-300 hover:border-lime-green/50">
+              <FaGoogle className="h-10 w-10 sm:h-12 sm:w-12 text-cream" aria-hidden="true" />
+              <span className="text-sm sm:text-base font-medium text-cream/80">Google Ads</span>
+            </li>
+            <li className="flex flex-col items-center justify-center gap-2 rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-6 sm:p-8 transition-all duration-300 hover:border-lime-green/50">
+              <FaMeta className="h-10 w-10 sm:h-12 sm:w-12 text-cream" aria-hidden="true" />
+              <span className="text-sm sm:text-base font-medium text-cream/80">Meta Blueprint</span>
+            </li>
+            <li className="flex flex-col items-center justify-center gap-2 rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-6 sm:p-8 transition-all duration-300 hover:border-lime-green/50">
+              <FaLinkedin className="h-10 w-10 sm:h-12 sm:w-12 text-cream" aria-hidden="true" />
+              <span className="text-sm sm:text-base font-medium text-cream/80">LinkedIn Ads</span>
+            </li>
+            <li className="flex flex-col items-center justify-center gap-2 rounded-2xl border border-cream/10 bg-dark-blue/80 backdrop-blur-sm p-6 sm:p-8 transition-all duration-300 hover:border-lime-green/50">
+              <FaHubspot className="h-10 w-10 sm:h-12 sm:w-12 text-cream" aria-hidden="true" />
+              <span className="text-sm sm:text-base font-medium text-cream/80">HubSpot Academy</span>
+            </li>
+          </ul>
+        </FadeIn>
       </section>
 
       {/* Testimonials Section */}
@@ -188,6 +219,6 @@ export default function Home() {
 
       {/* Footer */}
       <Footer />
-    </div>
+    </main>
   );
 }
