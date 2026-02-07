@@ -78,7 +78,8 @@ html {
 }
 
 /* Prevent horizontal scroll on mobile */
-html, body {
+html,
+body {
   overflow-x: hidden;
   width: 100%;
 }
@@ -100,3 +101,5 @@ html, body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--neon-yellow);
 }
+
+/*comentario danilo*/
