@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import SmoothScroll from "@/components/SmoothScroll";
-import CustomCursor from "@/components/CustomCursor";
-import Navbar from "@/components/Navbar";
-import LoadingScreen from "@/components/LoadingScreen";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 
@@ -157,15 +153,8 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased cursor-none`}
-      >
-        <LoadingScreen />
-        <SmoothScroll>
-          <CustomCursor />
-          <Navbar />
-          {children}
-        </SmoothScroll>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        {children}
         <SpeedInsights />
         <Analytics />
       </body>

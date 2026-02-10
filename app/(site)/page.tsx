@@ -5,7 +5,7 @@ import {
   CountUp,
 } from "@/components/animations";
 import LogoMarquee from "@/components/LogoMarquee";
-import TestimonialsSection from "@/components/TestimonialsSection";
+// import TestimonialsSection from "@/components/TestimonialsSection";
 import ContactForm from "@/components/ContactForm";
 import AnimatedGradient from "@/components/AnimatedGradient";
 import Footer from "@/components/Footer";
@@ -212,7 +212,7 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <TestimonialsSection />
+      {/* <TestimonialsSection /> */}
 
       {/* Contact Form */}
       <ContactForm />

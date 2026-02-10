@@ -202,13 +202,13 @@ export default function Footer() {
 
       {/* Back to Top */}
       <MagneticButton strength={0.5}>
-        <a
-          href="#inicio"
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="fixed bottom-4 sm:bottom-8 right-4 sm:right-8 z-40 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-lime-green text-black shadow-lg transition-all hover:bg-neon-yellow hover:scale-110 text-lg sm:text-xl"
           aria-label="Volver arriba"
         >
           ↑
-        </a>
+        </button>
       </MagneticButton>
     </footer>
   );

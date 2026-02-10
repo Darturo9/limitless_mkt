@@ -42,3 +42,6 @@ next-env.d.ts
 
 # project notes
 .BITACORA.txt
+
+# supabase schema (local reference only)
+/supabase-schema/
