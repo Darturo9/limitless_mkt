@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { FadeIn } from "@/components/animations";
 import MagneticButton from "./MagneticButton";
+import Link from "next/link";
 
 const footerLinks = {
   servicios: [
@@ -14,9 +15,8 @@ const footerLinks = {
   ],
   empresa: [
     { label: "Sobre Nosotros", href: "#nosotros" },
-    { label: "Testimonios", href: "#testimonios" },
-    { label: "Blog", href: "#blog" },
-    { label: "Carreras", href: "#carreras" },
+    { label: "Blog", href: "/blog" },
+    { label: "Galería", href: "/galeria" },
   ],
 };
 
@@ -158,12 +158,21 @@ export default function Footer() {
               <ul className="space-y-2 sm:space-y-3">
                 {footerLinks.empresa.map((link) => (
                   <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-xs sm:text-sm text-cream/50 transition-colors hover:text-lime-green"
-                    >
-                      {link.label}
-                    </a>
+                    {link.href.startsWith("/") ? (
+                      <Link
+                        href={link.href}
+                        className="text-xs sm:text-sm text-cream/50 transition-colors hover:text-lime-green"
+                      >
+                        {link.label}
+                      </Link>
+                    ) : (
+                      <a
+                        href={link.href}
+                        className="text-xs sm:text-sm text-cream/50 transition-colors hover:text-lime-green"
+                      >
+                        {link.label}
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -178,7 +187,7 @@ export default function Footer() {
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 sm:gap-4 px-4 sm:px-6 py-4 sm:py-6 md:flex-row">
           {/* Copyright */}
           <p className="text-xs sm:text-sm text-cream/40 text-center md:text-left">
-            © 2025 Limitless MKT. Todos los derechos reservados.
+            © {new Date().getFullYear()} Limitless MKT. Todos los derechos reservados.
           </p>
 
           {/* Social Links */}
