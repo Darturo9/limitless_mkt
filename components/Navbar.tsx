@@ -3,11 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "@/lib/gsap";
 import MagneticButton from "./MagneticButton";
+import Link from "next/link";
 
 const navLinks = [
   { href: "#inicio", label: "Inicio" },
   { href: "#servicios", label: "Servicios" },
   { href: "#nosotros", label: "Nosotros" },
+  { href: "/blog", label: "Blog" },
+  { href: "/galeria", label: "Galería" },
   { href: "#contacto", label: "Contacto" },
 ];
 
@@ -60,26 +63,36 @@ export default function Navbar() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6">
           {/* Logo */}
           <MagneticButton strength={0.3}>
-            <a href="#" className="flex items-center">
+            <Link href="/" className="flex items-center">
               <img
                 src="/images/logos/limitless-logo-blanco.png"
                 alt="Limitless MKT"
                 className="h-14 w-auto sm:h-16 md:h-18 lg:h-20"
               />
-            </a>
+            </Link>
           </MagneticButton>
 
           {/* Desktop Navigation */}
           <div className="hidden items-center gap-8 md:flex">
             {navLinks.map((link) => (
               <MagneticButton key={link.href} strength={0.2}>
-                <a
-                  href={link.href}
-                  className="group relative text-sm font-medium text-cream/80 transition-colors hover:text-cream"
-                >
-                  {link.label}
-                  <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-lime-green transition-all duration-300 group-hover:w-full" />
-                </a>
+                {link.href.startsWith("/") ? (
+                  <Link
+                    href={link.href}
+                    className="group relative text-sm font-medium text-cream/80 transition-colors hover:text-cream"
+                  >
+                    {link.label}
+                    <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-lime-green transition-all duration-300 group-hover:w-full" />
+                  </Link>
+                ) : (
+                  <a
+                    href={link.href}
+                    className="group relative text-sm font-medium text-cream/80 transition-colors hover:text-cream"
+                  >
+                    {link.label}
+                    <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-lime-green transition-all duration-300 group-hover:w-full" />
+                  </a>
+                )}
               </MagneticButton>
             ))}
           </div>
@@ -130,16 +143,27 @@ export default function Navbar() {
         }`}
       >
         <div className="flex h-full flex-col items-center justify-center gap-8">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="mobile-menu-item text-3xl font-bold text-cream transition-colors hover:text-lime-green"
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) =>
+            link.href.startsWith("/") ? (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="mobile-menu-item text-3xl font-bold text-cream transition-colors hover:text-lime-green"
+              >
+                {link.label}
+              </Link>
+            ) : (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="mobile-menu-item text-3xl font-bold text-cream transition-colors hover:text-lime-green"
+              >
+                {link.label}
+              </a>
+            )
+          )}
           <a
             href="#contacto"
             onClick={() => setIsMobileMenuOpen(false)}
