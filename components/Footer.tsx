@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { FadeIn } from "@/components/animations";
 import MagneticButton from "./MagneticButton";
 import Link from "next/link";
@@ -51,16 +50,6 @@ const socialLinks = [
 ];
 
 export default function Footer() {
-  const [email, setEmail] = useState("");
-  const [isSubscribed, setIsSubscribed] = useState(false);
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) {
-      setIsSubscribed(true);
-      setEmail("");
-    }
-  };
 
   return (
     <footer className="relative border-t border-cream/10 bg-black/20">
@@ -94,34 +83,6 @@ export default function Footer() {
                 </div>
               </div>
 
-              {/* Newsletter */}
-              <div className="mt-6 sm:mt-8">
-                <p className="mb-2 sm:mb-3 text-xs sm:text-sm font-medium text-cream">
-                  Suscríbete a nuestro newsletter
-                </p>
-                {isSubscribed ? (
-                  <p className="text-xs sm:text-sm text-lime-green">
-                    ¡Gracias por suscribirte! 🎉
-                  </p>
-                ) : (
-                  <form onSubmit={handleSubscribe} className="flex gap-2">
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="tu@email.com"
-                      required
-                      className="flex-1 rounded-lg border border-cream/10 bg-dark-blue/50 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-cream placeholder:text-cream/30 outline-none transition-all focus:border-lime-green/50"
-                    />
-                    <button
-                      type="submit"
-                      className="rounded-lg bg-lime-green px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-semibold text-black transition-all hover:bg-neon-yellow"
-                    >
-                      →
-                    </button>
-                  </form>
-                )}
-              </div>
             </FadeIn>
           </div>
 
