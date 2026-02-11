@@ -48,11 +48,17 @@ export default function EditGalleryItem() {
     if (isNew) {
       const { error } = await supabase.from("gallery_items").insert(payload);
       if (error) { setMessage("Error: " + error.message); }
-      else { setMessage("Item creado."); setTimeout(() => router.push("/admin/galeria"), 1000); }
+      else {
+        await fetch("/api/revalidate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ paths: ["/galeria"] }) });
+        setMessage("Item creado."); setTimeout(() => router.push("/admin/galeria"), 1000);
+      }
     } else {
       const { error } = await supabase.from("gallery_items").update(payload).eq("id", id);
       if (error) { setMessage("Error: " + error.message); }
-      else { setMessage("Guardado correctamente."); }
+      else {
+        await fetch("/api/revalidate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ paths: ["/galeria"] }) });
+        setMessage("Guardado correctamente.");
+      }
     }
     setSaving(false);
   }

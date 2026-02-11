@@ -51,11 +51,17 @@ export default function EditBlogPost() {
     if (isNew) {
       const { error } = await supabase.from("blog_posts").insert(payload);
       if (error) { setMessage("Error: " + error.message); }
-      else { setMessage("Post creado."); setTimeout(() => router.push("/admin/blog"), 1000); }
+      else {
+        await fetch("/api/revalidate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ paths: ["/blog"] }) });
+        setMessage("Post creado."); setTimeout(() => router.push("/admin/blog"), 1000);
+      }
     } else {
       const { error } = await supabase.from("blog_posts").update(payload).eq("id", id);
       if (error) { setMessage("Error: " + error.message); }
-      else { setMessage("Guardado correctamente."); }
+      else {
+        await fetch("/api/revalidate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ paths: ["/blog", `/blog/${form.slug}`] }) });
+        setMessage("Guardado correctamente.");
+      }
     }
     setSaving(false);
   }
