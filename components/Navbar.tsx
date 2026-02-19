@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { gsap } from "@/lib/gsap";
 import MagneticButton from "./MagneticButton";
 import Link from "next/link";
@@ -16,8 +17,10 @@ const navLinks = [
 
 export default function Navbar() {
   const navRef = useRef<HTMLElement>(null);
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const isHome = pathname === "/";
 
   useEffect(() => {
     const nav = navRef.current;
@@ -50,6 +53,11 @@ export default function Navbar() {
     }
   }, [isMobileMenuOpen]);
 
+  const getHref = (linkHref: string) => {
+    if (linkHref.startsWith("/")) return linkHref; // Links absolutos como /blog
+    return isHome ? linkHref : `/${linkHref}`; // Links ancla: #inicio -> /#inicio si no estamos en home
+  };
+
   return (
     <>
       <nav
@@ -76,23 +84,13 @@ export default function Navbar() {
           <div className="hidden items-center gap-8 md:flex">
             {navLinks.map((link) => (
               <MagneticButton key={link.href} strength={0.2}>
-                {link.href.startsWith("/") ? (
-                  <Link
-                    href={link.href}
-                    className="group relative text-sm font-medium text-cream/80 transition-colors hover:text-cream"
-                  >
-                    {link.label}
-                    <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-lime-green transition-all duration-300 group-hover:w-full" />
-                  </Link>
-                ) : (
-                  <a
-                    href={link.href}
-                    className="group relative text-sm font-medium text-cream/80 transition-colors hover:text-cream"
-                  >
-                    {link.label}
-                    <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-lime-green transition-all duration-300 group-hover:w-full" />
-                  </a>
-                )}
+                <Link
+                  href={getHref(link.href)}
+                  className="group relative text-sm font-medium text-cream/80 transition-colors hover:text-cream"
+                >
+                  {link.label}
+                  <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-lime-green transition-all duration-300 group-hover:w-full" />
+                </Link>
               </MagneticButton>
             ))}
           </div>
@@ -100,12 +98,12 @@ export default function Navbar() {
           {/* CTA Button */}
           <div className="hidden md:block">
             <MagneticButton strength={0.4}>
-              <a
-                href="#contacto"
+              <Link
+                href={getHref("#contacto")}
                 className="rounded-full bg-lime-green px-6 py-3 text-sm font-semibold text-black transition-all hover:bg-neon-yellow hover:scale-105"
               >
                 Hablemos
-              </a>
+              </Link>
             </MagneticButton>
           </div>
 
@@ -143,34 +141,23 @@ export default function Navbar() {
         }`}
       >
         <div className="flex h-full flex-col items-center justify-center gap-8">
-          {navLinks.map((link) =>
-            link.href.startsWith("/") ? (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="mobile-menu-item text-3xl font-bold text-cream transition-colors hover:text-lime-green"
-              >
-                {link.label}
-              </Link>
-            ) : (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="mobile-menu-item text-3xl font-bold text-cream transition-colors hover:text-lime-green"
-              >
-                {link.label}
-              </a>
-            )
-          )}
-          <a
-            href="#contacto"
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={getHref(link.href)}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="mobile-menu-item text-3xl font-bold text-cream transition-colors hover:text-lime-green"
+            >
+              {link.label}
+            </Link>
+          ))}
+          <Link
+            href={getHref("#contacto")}
             onClick={() => setIsMobileMenuOpen(false)}
             className="mobile-menu-item mt-4 rounded-full bg-lime-green px-8 py-4 text-lg font-semibold text-black"
           >
             Hablemos
-          </a>
+          </Link>
         </div>
       </div>
     </>

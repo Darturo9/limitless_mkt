@@ -1,6 +1,7 @@
-import { supabase, type GalleryItem } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase";
 import { FadeIn } from "@/components/animations";
 import Footer from "@/components/Footer";
+import GalleryGrid from "@/components/GalleryGrid";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -17,14 +18,14 @@ export default async function GaleriaPage() {
     .eq("published", true)
     .order("order_index", { ascending: true });
 
-  const categories = items
-    ? [...new Set(items.map((i) => i.category).filter(Boolean))]
-    : [];
-
   return (
     <>
-      <main className="min-h-screen px-4 sm:px-6 pt-32 pb-24">
-        <div className="mx-auto max-w-6xl">
+      <main className="min-h-screen px-4 sm:px-6 pt-32 pb-24 relative overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute top-20 right-10 h-80 w-80 rounded-full bg-lime-green/5 blur-3xl" />
+        <div className="absolute bottom-40 left-20 h-96 w-96 rounded-full bg-purple-500/5 blur-3xl" />
+
+        <div className="mx-auto max-w-7xl relative z-10">
           <FadeIn className="mb-4 text-center">
             <span className="text-sm font-medium uppercase tracking-widest text-lime-green">
               Portafolio
@@ -32,62 +33,24 @@ export default async function GaleriaPage() {
           </FadeIn>
 
           <FadeIn className="mb-16 text-center">
-            <h1 className="text-4xl font-bold text-cream md:text-5xl">
-              Nuestro{" "}
-              <span className="text-lime-green">trabajo</span>
+            <h1 className="text-4xl font-bold text-cream md:text-6xl tracking-tight">
+              Nuestro <span className="text-lime-green">trabajo</span>
             </h1>
-            <p className="mx-auto mt-4 max-w-xl text-cream/60">
+            <p className="mx-auto mt-6 max-w-xl text-lg text-cream/60">
               Proyectos que han transformado la presencia digital de nuestros clientes.
             </p>
           </FadeIn>
 
           {!items || items.length === 0 ? (
-            <FadeIn className="py-24 text-center text-cream/40">
-              Próximamente — estamos preparando el portafolio.
+            <FadeIn className="flex flex-col items-center justify-center py-24 text-center rounded-3xl border border-cream/5 bg-white/5 backdrop-blur-sm">
+              <div className="mb-4 rounded-full bg-lime-green/10 p-6">
+                <span className="text-4xl">🎨</span>
+              </div>
+              <p className="text-xl font-medium text-cream">Próximamente</p>
+              <p className="mt-2 text-cream/40">Estamos seleccionando nuestros mejores proyectos.</p>
             </FadeIn>
           ) : (
-            <>
-              {/* Categories filter — rendered client-side via JS-free approach */}
-              {categories.length > 0 && (
-                <FadeIn className="mb-10 flex flex-wrap justify-center gap-2">
-                  {categories.map((cat) => (
-                    <span
-                      key={cat}
-                      className="rounded-full border border-cream/10 px-4 py-1.5 text-sm text-cream/50"
-                    >
-                      {cat}
-                    </span>
-                  ))}
-                </FadeIn>
-              )}
-
-              <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
-                {items.map((item) => (
-                  <FadeIn key={item.id} className="mb-4 break-inside-avoid">
-                    <div className="group overflow-hidden rounded-2xl border border-cream/10 bg-dark-blue/30 transition-all hover:border-lime-green/30">
-                      <div className="overflow-hidden">
-                        <img
-                          src={item.image_url}
-                          alt={item.title}
-                          className="w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                      </div>
-                      <div className="p-4">
-                        <h3 className="font-bold text-cream">{item.title}</h3>
-                        {item.description && (
-                          <p className="mt-1 text-sm text-cream/50">{item.description}</p>
-                        )}
-                        {item.category && (
-                          <span className="mt-2 inline-block rounded-full bg-lime-green/10 px-2.5 py-0.5 text-xs text-lime-green">
-                            {item.category}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </FadeIn>
-                ))}
-              </div>
-            </>
+            <GalleryGrid items={items} />
           )}
         </div>
       </main>

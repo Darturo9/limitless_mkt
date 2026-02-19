@@ -2,7 +2,9 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { supabase, type BlogPost } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase";
+import { ArrowLeft, Save, Upload, Eye, Image as ImageIcon, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
+import Image from "next/image";
 
 export default function EditBlogPost() {
   const { id } = useParams<{ id: string }>();
@@ -18,7 +20,14 @@ export default function EditBlogPost() {
   useEffect(() => {
     if (!isNew) {
       supabase.from("blog_posts").select("*").eq("id", id).single().then(({ data }) => {
-        if (data) setForm({ title: data.title, slug: data.slug, excerpt: data.excerpt ?? "", content: data.content, cover_image: data.cover_image ?? "", published: data.published });
+        if (data) setForm({
+          title: data.title,
+          slug: data.slug,
+          excerpt: data.excerpt ?? "",
+          content: data.content,
+          cover_image: data.cover_image ?? "",
+          published: data.published
+        });
       });
     }
   }, [id, isNew]);
@@ -53,124 +62,193 @@ export default function EditBlogPost() {
       if (error) { setMessage("Error: " + error.message); }
       else {
         await fetch("/api/revalidate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ paths: ["/blog"] }) });
-        setMessage("Post creado."); setTimeout(() => router.push("/admin/blog"), 1000);
+        setMessage("Post creado exitosamente."); setTimeout(() => router.push("/admin/blog"), 1000);
       }
     } else {
       const { error } = await supabase.from("blog_posts").update(payload).eq("id", id);
       if (error) { setMessage("Error: " + error.message); }
       else {
         await fetch("/api/revalidate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ paths: ["/blog", `/blog/${form.slug}`] }) });
-        setMessage("Guardado correctamente.");
+        setMessage("Cambios guardados correctamente.");
       }
     }
     setSaving(false);
   }
 
   return (
-    <div className="mx-auto max-w-2xl">
-      <div className="mb-8 flex items-center gap-4">
-        <button onClick={() => router.push("/admin/blog")} className="text-sm text-gray-400 hover:text-white transition-colors">
-          ← Volver
-        </button>
-        <h1 className="text-2xl font-bold text-white">{isNew ? "Nuevo post" : "Editar post"}</h1>
-      </div>
-
-      <form onSubmit={handleSave} className="space-y-5">
-        <Field label="Título *">
-          <input
-            type="text"
-            value={form.title}
-            onChange={(e) => setForm((f) => ({ ...f, title: e.target.value, slug: isNew ? generateSlug(e.target.value) : f.slug }))}
-            required
-            placeholder="Título del post"
-            className={inputCls}
-          />
-        </Field>
-
-        <Field label="Slug *">
-          <input
-            type="text"
-            value={form.slug}
-            onChange={(e) => setForm((f) => ({ ...f, slug: e.target.value }))}
-            required
-            placeholder="url-del-post"
-            className={inputCls}
-          />
-        </Field>
-
-        <Field label="Extracto">
-          <input
-            type="text"
-            value={form.excerpt}
-            onChange={(e) => setForm((f) => ({ ...f, excerpt: e.target.value }))}
-            placeholder="Breve descripción del post"
-            className={inputCls}
-          />
-        </Field>
-
-        <Field label="Imagen de portada">
-          <div className="space-y-2">
-            {form.cover_image && (
-              <img src={form.cover_image} alt="Cover" className="h-40 w-full rounded-lg object-cover" />
-            )}
-            <input type="file" accept="image/*" ref={fileRef} onChange={handleImageUpload} className="hidden" />
-            <button
-              type="button"
-              onClick={() => fileRef.current?.click()}
-              disabled={uploading}
-              className="rounded-lg border border-gray-700 px-4 py-2 text-sm text-gray-300 hover:border-lime-400/50 hover:text-white transition-colors disabled:opacity-50"
-            >
-              {uploading ? "Subiendo..." : "Subir imagen"}
-            </button>
+    <div className="mx-auto max-w-7xl pb-20">
+      {/* Header */}
+      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sticky top-0 z-20 bg-black/80 backdrop-blur-xl py-4 -mx-8 px-8 border-b border-white/5">
+        <div className="flex items-center gap-4">
+          <button onClick={() => router.push("/admin/blog")} className="group rounded-full bg-white/5 p-2 text-cream/60 transition-colors hover:bg-white/10 hover:text-white">
+            <ArrowLeft size={20} className="transition-transform group-hover:-translate-x-1" />
+          </button>
+          <div>
+            <h1 className="text-2xl font-bold text-white tracking-tight">{isNew ? "Nuevo Artículo" : "Editar Artículo"}</h1>
+            <p className="text-xs text-cream/40">{isNew ? "Crea contenido de valor" : `Editando: ${form.slug}`}</p>
           </div>
-        </Field>
-
-        <Field label="Contenido *">
-          <textarea
-            value={form.content}
-            onChange={(e) => setForm((f) => ({ ...f, content: e.target.value }))}
-            required
-            rows={12}
-            placeholder="Escribe el contenido del post..."
-            className={`${inputCls} resize-y`}
-          />
-        </Field>
-
-        <div className="flex items-center gap-3">
-          <input
-            type="checkbox"
-            id="published"
-            checked={form.published}
-            onChange={(e) => setForm((f) => ({ ...f, published: e.target.checked }))}
-            className="h-4 w-4 rounded accent-lime-400"
-          />
-          <label htmlFor="published" className="text-sm text-gray-300">Publicar</label>
         </div>
 
-        {message && (
-          <p className={`rounded-lg px-4 py-3 text-sm ${message.startsWith("Error") ? "bg-red-500/10 text-red-400 border border-red-500/20" : "bg-lime-400/10 text-lime-400 border border-lime-400/20"}`}>
-            {message}
-          </p>
-        )}
+        <div className="flex items-center gap-3">
+          {message && (
+            <div className={`flex items-center gap-2 rounded-full px-4 py-2 text-xs font-medium animate-in fade-in slide-in-from-right-5 ${message.startsWith("Error") ? "bg-red-500/10 text-red-400" : "bg-lime-green/10 text-lime-green"}`}>
+              {message.startsWith("Error") ? <AlertCircle size={14} /> : <CheckCircle size={14} />}
+              {message}
+            </div>
+          )}
 
-        <button
-          type="submit"
-          disabled={saving}
-          className="rounded-lg bg-lime-400 px-6 py-3 font-semibold text-black hover:bg-lime-300 transition-colors disabled:opacity-50"
-        >
-          {saving ? "Guardando..." : "Guardar"}
-        </button>
-      </form>
+          <div className="flex items-center gap-2 rounded-full bg-white/5 px-1 p-1">
+            <button
+              type="button"
+              onClick={() => setForm(f => ({ ...f, published: !f.published }))}
+              className={`rounded-full px-4 py-1.5 text-xs font-medium transition-all ${form.published ? "bg-lime-green text-black" : "text-cream/40 hover:text-white"}`}
+            >
+              {form.published ? "Publicado" : "Borrador"}
+            </button>
+          </div>
+
+          <button
+            onClick={handleSave}
+            disabled={saving}
+            className="flex items-center gap-2 rounded-xl bg-lime-green px-6 py-2.5 text-sm font-bold text-black shadow-lg shadow-lime-green/20 transition-all hover:bg-neon-yellow hover:scale-105 hover:shadow-neon-yellow/30 disabled:opacity-50 disabled:pointer-events-none"
+          >
+            {saving ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
+            {saving ? "Guardando..." : "Guardar Cambios"}
+          </button>
+        </div>
+      </div>
+
+      <div className="grid gap-8 lg:grid-cols-2">
+        {/* Editor Column */}
+        <div className="space-y-6">
+          <div className="card-glass p-6 space-y-6">
+            <Field label="Título Principal">
+              <input
+                type="text"
+                value={form.title}
+                onChange={(e) => setForm((f) => ({ ...f, title: e.target.value, slug: isNew ? generateSlug(e.target.value) : f.slug }))}
+                required
+                placeholder="Escribe un título impactante..."
+                className="input-glass text-lg font-bold"
+              />
+            </Field>
+
+            <Field label="Slug (URL Friendly)">
+              <div className="relative">
+                <span className="absolute left-4 top-3.5 text-cream/30 text-sm">/blog/</span>
+                <input
+                  type="text"
+                  value={form.slug}
+                  onChange={(e) => setForm((f) => ({ ...f, slug: e.target.value }))}
+                  required
+                  className="input-glass pl-16 font-mono text-sm text-lime-green"
+                />
+              </div>
+            </Field>
+
+            <Field label="Extracto (SEO & Preview)">
+              <textarea
+                value={form.excerpt}
+                onChange={(e) => setForm((f) => ({ ...f, excerpt: e.target.value }))}
+                rows={3}
+                placeholder="Breve descripción que aparecerá en las tarjetas..."
+                className="input-glass resize-none"
+              />
+            </Field>
+          </div>
+
+          <div className="card-glass p-6">
+            <div className="mb-4 flex items-center justify-between">
+              <label className="text-xs font-bold uppercase tracking-wider text-lime-green">Contenido del Artículo</label>
+              <span className="text-xs text-cream/30">Markdown soportado</span>
+            </div>
+            <textarea
+              value={form.content}
+              onChange={(e) => setForm((f) => ({ ...f, content: e.target.value }))}
+              required
+              rows={20}
+              placeholder="Escribe aquí tu contenido..."
+              className="input-glass font-mono text-sm leading-relaxed"
+            />
+          </div>
+        </div>
+
+        {/* Preview / Media Column */}
+        <div className="space-y-6">
+          {/* Cover Image */}
+          <div className="card-glass p-6">
+            <label className="mb-4 block text-xs font-bold uppercase tracking-wider text-lime-green">Imagen de Portada</label>
+
+            <div className="group relative aspect-video w-full overflow-hidden rounded-2xl border border-white/10 bg-black/20">
+              {form.cover_image ? (
+                <img src={form.cover_image} alt="Cover" className="h-full w-full object-cover" />
+              ) : (
+                <div className="flex h-full flex-col items-center justify-center gap-2 text-cream/20">
+                  <ImageIcon size={48} />
+                  <span className="text-sm font-medium">Sin imagen</span>
+                </div>
+              )}
+
+              <div className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100">
+                <button
+                  type="button"
+                  onClick={() => fileRef.current?.click()}
+                  disabled={uploading}
+                  className="flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-bold text-black transition-transform hover:scale-105"
+                >
+                  {uploading ? <Loader2 size={18} className="animate-spin" /> : <Upload size={18} />}
+                  {uploading ? "Subiendo..." : "Cambiar Imagen"}
+                </button>
+              </div>
+            </div>
+            <input type="file" accept="image/*" ref={fileRef} onChange={handleImageUpload} className="hidden" />
+            <p className="mt-3 text-center text-xs text-cream/40">Recomendado: 1920x1080px (JPG, PNG)</p>
+          </div>
+
+          {/* Live Preview Card */}
+          <div className="card-glass p-6">
+            <div className="mb-4 flex items-center gap-2">
+              <Eye size={16} className="text-lime-green" />
+              <label className="text-xs font-bold uppercase tracking-wider text-lime-green">Vista Previa de la Tarjeta</label>
+            </div>
+
+            <div className="rounded-3xl border border-white/10 bg-white/5 p-0 overflow-hidden shadow-2xl">
+              <div className="relative h-48 w-full bg-dark-blue">
+                {form.cover_image ? (
+                  <img src={form.cover_image} className="h-full w-full object-cover" />
+                ) : (
+                  <div className="flex h-full items-center justify-center text-lime-green/20 text-4xl">✦</div>
+                )}
+              </div>
+              <div className="p-6">
+                <div className="mb-3 flex items-center justify-between">
+                  <span className="rounded-full bg-lime-green/10 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-lime-green">Artículo</span>
+                  <span className="text-[10px] text-cream/40">Feb 18, 2026</span>
+                </div>
+                <h3 className="mb-2 text-lg font-bold text-cream line-clamp-2">{form.title || "Título del artículo"}</h3>
+                <p className="text-sm text-cream/60 line-clamp-3">{form.excerpt || "Aquí aparecerá un breve extracto del contenido de tu artículo de blog..."}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <style jsx global>{`
+        .card-glass {
+          @apply rounded-3xl border border-white/5 bg-white/5 backdrop-blur-xl shadow-xl shadow-black/20;
+        }
+        .input-glass {
+          @apply w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-cream placeholder:text-cream/20 outline-none focus:border-lime-green/50 focus:bg-black/40 transition-all;
+        }
+      `}</style>
     </div>
   );
 }
 
-const inputCls = "w-full rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-sm text-white placeholder:text-gray-500 outline-none focus:border-lime-400/50 transition-colors";
-
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <label className="mb-1.5 block text-xs font-medium text-gray-400">{label}</label>
+      <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-lime-green">{label}</label>
       {children}
     </div>
   );
