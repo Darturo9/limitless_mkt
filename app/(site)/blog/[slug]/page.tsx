@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const { data } = await supabase
     .from("blog_posts")
-    .select("title, excerpt, cover_image")
+    .select("title, excerpt, cover_image, created_at, updated_at, author_id") // Added updated_at
     .eq("slug", slug)
     .eq("published", true)
     .single();
@@ -23,7 +23,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: data.title,
     description: data.excerpt ?? undefined,
-    openGraph: data.cover_image ? { images: [data.cover_image] } : undefined,
+    openGraph: {
+      title: data.title,
+      description: data.excerpt ?? undefined,
+      type: "article",
+      publishedTime: data.created_at,
+      modifiedTime: data.updated_at,
+      authors: ["Limitless Marketing"],
+      images: data.cover_image ? [{ url: data.cover_image, width: 1200, height: 630, alt: data.title }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: data.title,
+      description: data.excerpt ?? undefined,
+      images: data.cover_image ? [data.cover_image] : undefined,
+    },
+    alternates: {
+      canonical: `https://www.limitlessmarketing502.com/blog/${slug}`,
+    },
   };
 }
 
@@ -39,8 +56,40 @@ export default async function BlogPostPage({ params }: Props) {
 
   if (!post) notFound();
 
+  // JSON-LD for Article Structure
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.excerpt,
+    image: post.cover_image ? [post.cover_image] : [],
+    datePublished: post.created_at,
+    dateModified: post.updated_at,
+    author: {
+      "@type": "Organization",
+      name: "Limitless Marketing",
+      url: "https://www.limitlessmarketing502.com",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Limitless Marketing",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://www.limitlessmarketing502.com/images/logos/limitless-logo.png",
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://www.limitlessmarketing502.com/blog/${slug}`,
+    },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <main className="min-h-screen relative overflow-hidden bg-background">
         {/* Background Elements */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 h-96 w-[800px] rounded-full bg-lime-green/5 blur-3xl pointer-events-none" />
