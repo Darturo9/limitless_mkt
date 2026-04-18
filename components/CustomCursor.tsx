@@ -14,12 +14,23 @@ export default function CustomCursor() {
     const cursorDot = cursorDotRef.current;
     if (!cursor || !cursorDot) return;
 
-    // Ocultar en dispositivos táctiles
-    if (window.matchMedia("(pointer: coarse)").matches) {
+    const isCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isDesktopViewport = window.matchMedia("(min-width: 768px)").matches;
+    const shouldDisableCustomCursor =
+      isCoarsePointer || prefersReducedMotion || !isDesktopViewport;
+
+    // Desactivar cursor custom en touch, reduce motion o viewport pequeño
+    if (shouldDisableCustomCursor) {
       cursor.style.display = "none";
       cursorDot.style.display = "none";
+      document.documentElement.style.cursor = "";
+      document.body.style.cursor = "";
       return;
     }
+
+    document.documentElement.style.cursor = "none";
+    document.body.style.cursor = "none";
 
     // Throttle para optimizar performance
     let rafId: number | null = null;
@@ -73,6 +84,8 @@ export default function CustomCursor() {
     return () => {
       window.removeEventListener("mousemove", moveCursor);
       window.removeEventListener("mouseover", handleMouseOver);
+      document.documentElement.style.cursor = "";
+      document.body.style.cursor = "";
       if (rafId !== null) {
         cancelAnimationFrame(rafId);
       }
