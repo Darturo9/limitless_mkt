@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabase, type GalleryItem } from "@/lib/supabase";
 import Link from "next/link";
+import Image from "next/image";
 import { Plus, Image as ImageIcon, Trash2, Eye, Edit, Search } from "lucide-react";
 
 export default function AdminGaleria() {
@@ -19,7 +20,26 @@ export default function AdminGaleria() {
     setLoading(false);
   }
 
-  useEffect(() => { fetchItems(); }, []);
+  useEffect(() => {
+    let active = true;
+
+    const loadItems = async () => {
+      const { data } = await supabase
+        .from("gallery_items")
+        .select("*")
+        .order("order_index", { ascending: true });
+
+      if (!active) return;
+      setItems(data ?? []);
+      setLoading(false);
+    };
+
+    void loadItems();
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   async function togglePublish(item: GalleryItem) {
     await supabase.from("gallery_items").update({ published: !item.published }).eq("id", item.id);
@@ -81,10 +101,12 @@ export default function AdminGaleria() {
             <div key={item.id} className="group relative flex flex-col overflow-hidden rounded-3xl border border-white/5 bg-white/5 transition-all hover:border-lime-green/30 hover:shadow-2xl hover:shadow-lime-green/5">
               {/* Image */}
               <div className="relative aspect-square overflow-hidden bg-black/50">
-                <img
+                <Image
                   src={item.image_url}
                   alt={item.title}
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  fill
+                  sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />
 

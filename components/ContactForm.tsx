@@ -12,6 +12,7 @@ interface FormData {
   instagram: string;
   service: string;
   message: string;
+  website: string;
 }
 
 export default function ContactForm() {
@@ -23,6 +24,7 @@ export default function ContactForm() {
     instagram: "",
     service: "",
     message: "",
+    website: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -120,7 +122,7 @@ export default function ContactForm() {
             onClick={() => {
               setIsSuccess(false);
               setIsSubmitting(false);
-              setFormData({ name: "", email: "", phone: "", company: "", instagram: "", service: "", message: "" });
+              setFormData({ name: "", email: "", phone: "", company: "", instagram: "", service: "", message: "", website: "" });
             }}
             className="mt-8 rounded-full border border-cream/20 px-6 py-3 text-cream/60 transition-all hover:border-lime-green hover:text-lime-green"
           >
@@ -153,8 +155,22 @@ export default function ContactForm() {
         <form
           ref={formRef}
           onSubmit={handleSubmit}
-          className="mx-auto max-w-2xl rounded-3xl border border-cream/10 bg-dark-blue/30 p-8 md:p-12"
+          className="relative mx-auto max-w-2xl rounded-3xl border border-cream/10 bg-dark-blue/30 p-8 md:p-12"
         >
+          {/* Honeypot (oculto para usuarios reales) */}
+          <div className="absolute -left-[9999px] top-auto h-0 w-0 overflow-hidden opacity-0" aria-hidden="true">
+            <label htmlFor="website">Sitio web</label>
+            <input
+              id="website"
+              type="text"
+              name="website"
+              value={formData.website}
+              onChange={handleChange}
+              autoComplete="off"
+              tabIndex={-1}
+            />
+          </div>
+
           <div className="grid gap-6 md:grid-cols-2">
             {/* Name */}
             <div className="group">
@@ -167,6 +183,8 @@ export default function ContactForm() {
                 value={formData.name}
                 onChange={handleChange}
                 required
+                minLength={2}
+                maxLength={100}
                 placeholder="Tu nombre"
                 className={inputClasses}
               />
@@ -183,6 +201,7 @@ export default function ContactForm() {
                 value={formData.email}
                 onChange={handleChange}
                 required
+                maxLength={120}
                 placeholder="tu@email.com"
                 className={inputClasses}
               />
@@ -200,6 +219,7 @@ export default function ContactForm() {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
+                maxLength={30}
                 placeholder="+502 1234 5678"
                 className={inputClasses}
               />
@@ -214,6 +234,7 @@ export default function ContactForm() {
                 name="company"
                 value={formData.company}
                 onChange={handleChange}
+                maxLength={120}
                 placeholder="Tu empresa"
                 className={inputClasses}
               />
@@ -230,6 +251,7 @@ export default function ContactForm() {
               name="instagram"
               value={formData.instagram}
               onChange={handleChange}
+              maxLength={150}
               placeholder="@tunegocio o www.tunegocio.com"
               className={inputClasses}
             />
@@ -268,6 +290,8 @@ export default function ContactForm() {
               value={formData.message}
               onChange={handleChange}
               required
+              minLength={10}
+              maxLength={3000}
               rows={5}
               placeholder="Cuéntanos sobre tu proyecto..."
               className={`${inputClasses} resize-none`}

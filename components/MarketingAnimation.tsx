@@ -17,9 +17,7 @@ export default function MarketingAnimation({
   speed = 1,
 }: MarketingAnimationProps) {
   const lottieRef = useRef<LottieRefCurrentProps>(null);
-  const [animationData, setAnimationData] = useState(null);
-
-  useEffect(() => {
+  const [animationData] = useState(() => {
     // Animación de megáfono/altavoz para marketing digital
     const marketingAnimation = {
       v: "5.7.0",
@@ -299,8 +297,8 @@ export default function MarketingAnimation({
       ]
     };
 
-    setAnimationData(marketingAnimation as any);
-  }, []);
+    return marketingAnimation;
+  });
 
   useEffect(() => {
     if (lottieRef.current && speed !== 1) {

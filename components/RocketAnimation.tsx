@@ -17,9 +17,7 @@ export default function RocketAnimation({
   speed = 1,
 }: RocketAnimationProps) {
   const lottieRef = useRef<LottieRefCurrentProps>(null);
-  const [animationData, setAnimationData] = useState(null);
-
-  useEffect(() => {
+  const [animationData] = useState(() => {
     // Fallback: simple rocket animation con colores de la marca
     const fallbackAnimation = {
       v: "5.7.0",
@@ -118,8 +116,8 @@ export default function RocketAnimation({
       ]
     };
 
-    setAnimationData(fallbackAnimation as any);
-  }, []);
+    return fallbackAnimation;
+  });
 
   useEffect(() => {
     if (lottieRef.current && speed !== 1) {

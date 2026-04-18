@@ -50,10 +50,13 @@ export default function GalleryGrid({ items }: { items: GalleryItem[] }) {
                             className="group relative cursor-zoom-in overflow-hidden rounded-3xl border border-white/10 bg-white/5 transition-all hover:border-lime-green/50 hover:shadow-2xl hover:shadow-lime-green/5"
                         >
                             <div className="relative w-full">
-                                <img
+                                <Image
                                     src={item.image_url}
                                     alt={item.title}
-                                    className="w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                    width={1200}
+                                    height={900}
+                                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                                    className="h-auto w-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 />
                                 <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/20" />
 
@@ -94,9 +97,12 @@ export default function GalleryGrid({ items }: { items: GalleryItem[] }) {
                         className="relative max-h-[90vh] max-w-[90vw] overflow-hidden rounded-lg"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <img
+                        <Image
                             src={selectedImage.image_url}
                             alt={selectedImage.title}
+                            width={1600}
+                            height={1200}
+                            sizes="90vw"
                             className="max-h-[85vh] w-auto max-w-full object-contain"
                         />
                         <div className="mt-4 text-center">

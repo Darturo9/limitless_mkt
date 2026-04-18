@@ -3,6 +3,7 @@
 import { FadeIn } from "@/components/animations";
 import MagneticButton from "./MagneticButton";
 import Link from "next/link";
+import Image from "next/image";
 
 const footerLinks = {
   servicios: [
@@ -60,9 +61,11 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <FadeIn>
               <a href="#" className="flex items-center">
-                <img
+                <Image
                   src="/images/logos/limitless-logo-blanco.png"
                   alt="Limitless MKT"
+                  width={240}
+                  height={80}
                   className="h-16 w-auto sm:h-18 md:h-20"
                 />
               </a>

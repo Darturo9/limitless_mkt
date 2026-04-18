@@ -7,6 +7,16 @@ import Link from "next/link";
 export default function NotFound() {
   const containerRef = useRef<HTMLDivElement>(null);
   const numbersRef = useRef<HTMLDivElement>(null);
+  const particles = Array.from({ length: 20 }, (_, i) => ({
+    color:
+      i % 3 === 0
+        ? "var(--lime-green)"
+        : i % 3 === 1
+          ? "var(--purple)"
+          : "var(--neon-yellow)",
+    left: `${(i * 37) % 100}%`,
+    top: `${(i * 53) % 100}%`,
+  }));
 
   useEffect(() => {
     const container = containerRef.current;
@@ -56,19 +66,14 @@ export default function NotFound() {
       className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background px-6"
     >
       {/* Floating particles */}
-      {[...Array(20)].map((_, i) => (
+      {particles.map((particle, i) => (
         <div
           key={i}
           className="particle absolute h-2 w-2 rounded-full opacity-20"
           style={{
-            backgroundColor:
-              i % 3 === 0
-                ? "var(--lime-green)"
-                : i % 3 === 1
-                ? "var(--purple)"
-                : "var(--neon-yellow)",
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
+            backgroundColor: particle.color,
+            left: particle.left,
+            top: particle.top,
           }}
         />
       ))}

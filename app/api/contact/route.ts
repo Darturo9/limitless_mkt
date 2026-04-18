@@ -1,36 +1,136 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
-export async function POST(request: Request) {
-  console.log("📧 [API Contact] Iniciando proceso de envío de email...");
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
+const RATE_LIMIT_MAX_REQUESTS = 3;
 
+type RateLimitEntry = {
+  count: number;
+  resetAt: number;
+};
+
+declare global {
+  var __contactRateLimitStore: Map<string, RateLimitEntry> | undefined;
+}
+
+const rateLimitStore =
+  globalThis.__contactRateLimitStore ??
+  new Map<string, RateLimitEntry>();
+globalThis.__contactRateLimitStore = rateLimitStore;
+
+function getClientIp(request: NextRequest): string {
+  const forwardedFor = request.headers.get("x-forwarded-for");
+  if (forwardedFor) {
+    const firstIp = forwardedFor.split(",")[0]?.trim();
+    if (firstIp) return firstIp;
+  }
+
+  return (
+    request.headers.get("cf-connecting-ip") ||
+    request.headers.get("x-real-ip") ||
+    "unknown"
+  );
+}
+
+function checkRateLimit(ip: string): { limited: boolean; retryAfter: number } {
+  const now = Date.now();
+  const current = rateLimitStore.get(ip);
+
+  if (!current || now > current.resetAt) {
+    rateLimitStore.set(ip, {
+      count: 1,
+      resetAt: now + RATE_LIMIT_WINDOW_MS,
+    });
+    return { limited: false, retryAfter: 0 };
+  }
+
+  if (current.count >= RATE_LIMIT_MAX_REQUESTS) {
+    return {
+      limited: true,
+      retryAfter: Math.ceil((current.resetAt - now) / 1000),
+    };
+  }
+
+  current.count += 1;
+  rateLimitStore.set(ip, current);
+  return { limited: false, retryAfter: 0 };
+}
+
+function isValidEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    console.log("📝 [API Contact] Datos recibidos:", {
-      name: body.name,
-      email: body.email,
-      phone: body.phone,
-      company: body.company,
-      instagram: body.instagram,
-      service: body.service,
-      messageLength: body.message?.length
-    });
+    const clientIp = getClientIp(request);
+    const { limited, retryAfter } = checkRateLimit(clientIp);
 
-    const { name, email, phone, company, instagram, service, message } = body;
+    if (limited) {
+      return NextResponse.json(
+        { error: "Demasiados intentos. Intenta de nuevo en unos minutos." },
+        {
+          status: 429,
+          headers: {
+            "Retry-After": String(retryAfter),
+          },
+        }
+      );
+    }
 
-    // Validación básica
+    const website = String(body.website ?? "").trim();
+    if (website.length > 0) {
+      // Honeypot: bots suelen completar este campo oculto.
+      return NextResponse.json({ message: "Mensaje recibido" }, { status: 200 });
+    }
+
+    const name = String(body.name ?? "").trim();
+    const email = String(body.email ?? "").trim().toLowerCase();
+    const phone = String(body.phone ?? "").trim();
+    const company = String(body.company ?? "").trim();
+    const instagram = String(body.instagram ?? "").trim();
+    const service = String(body.service ?? "").trim();
+    const message = String(body.message ?? "").trim();
+
     if (!name || !email || !message) {
-      console.error("❌ [API Contact] Validación fallida: Faltan campos requeridos");
       return NextResponse.json(
         { error: "Faltan campos requeridos" },
         { status: 400 }
       );
     }
 
-    // Verificar variables de entorno
-    console.log("🔑 [API Contact] Verificando credenciales SMTP...");
-    console.log("   SMTP_USER:", process.env.SMTP_USER ? "✅ Configurado" : "❌ NO configurado");
-    console.log("   SMTP_PASSWORD:", process.env.SMTP_PASSWORD ? "✅ Configurado" : "❌ NO configurado");
+    if (name.length < 2 || name.length > 100) {
+      return NextResponse.json(
+        { error: "Nombre inválido" },
+        { status: 400 }
+      );
+    }
+
+    if (!isValidEmail(email) || email.length > 120) {
+      return NextResponse.json(
+        { error: "Email inválido" },
+        { status: 400 }
+      );
+    }
+
+    if (message.length < 10 || message.length > 3000) {
+      return NextResponse.json(
+        { error: "Mensaje inválido" },
+        { status: 400 }
+      );
+    }
+
+    if (
+      phone.length > 30 ||
+      company.length > 120 ||
+      instagram.length > 150 ||
+      service.length > 120
+    ) {
+      return NextResponse.json(
+        { error: "Uno o más campos exceden el tamaño permitido" },
+        { status: 400 }
+      );
+    }
 
     if (!process.env.SMTP_USER || !process.env.SMTP_PASSWORD) {
       console.error("❌ [API Contact] Variables de entorno SMTP no configuradas");
@@ -41,7 +141,6 @@ export async function POST(request: Request) {
     }
 
     // Configurar transporter de Gmail
-    console.log("⚙️ [API Contact] Configurando transporter de Gmail...");
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -50,10 +149,8 @@ export async function POST(request: Request) {
       },
     });
 
-    // Verificar conexión
-    console.log("🔌 [API Contact] Verificando conexión SMTP...");
+    // Verificar conexión SMTP antes del envío
     await transporter.verify();
-    console.log("✅ [API Contact] Conexión SMTP verificada correctamente");
 
     // Email para el cliente (confirmación)
     const clientMailOptions = {
@@ -445,25 +542,17 @@ export async function POST(request: Request) {
     };
 
     // Enviar email al cliente
-    console.log("📤 [API Contact] Enviando email de confirmación al cliente...");
-    const clientResult = await transporter.sendMail(clientMailOptions);
-    console.log("✅ [API Contact] Email al cliente enviado:", clientResult.messageId);
+    await transporter.sendMail(clientMailOptions);
 
     // Enviar email interno
-    console.log("📤 [API Contact] Enviando notificación interna...");
-    const internalResult = await transporter.sendMail(internalMailOptions);
-    console.log("✅ [API Contact] Email interno enviado:", internalResult.messageId);
-
-    console.log("🎉 [API Contact] Proceso completado exitosamente");
+    await transporter.sendMail(internalMailOptions);
 
     return NextResponse.json(
       { message: "Emails enviados exitosamente" },
       { status: 200 }
     );
   } catch (error) {
-    console.error("❌ [API Contact] Error crítico:", error);
-    console.error("   Tipo de error:", error instanceof Error ? error.message : "Error desconocido");
-    console.error("   Stack:", error instanceof Error ? error.stack : "No disponible");
+    console.error("❌ [API Contact] Error crítico:", error instanceof Error ? error.message : "Error desconocido");
 
     return NextResponse.json(
       { error: "Error al enviar el mensaje", details: error instanceof Error ? error.message : "Error desconocido" },

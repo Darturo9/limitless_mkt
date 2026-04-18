@@ -1,4 +1,4 @@
-import { supabase, type BlogPost } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 import Image from "next/image";
 import { FadeIn } from "@/components/animations";

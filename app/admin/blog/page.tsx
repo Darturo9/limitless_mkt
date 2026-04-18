@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabase, type BlogPost } from "@/lib/supabase";
 import Link from "next/link";
+import Image from "next/image";
 import { Edit, Trash2, Eye, Plus, Search, FileText } from "lucide-react";
 
 export default function AdminBlog() {
@@ -19,7 +20,26 @@ export default function AdminBlog() {
     setLoading(false);
   }
 
-  useEffect(() => { fetchPosts(); }, []);
+  useEffect(() => {
+    let active = true;
+
+    const loadPosts = async () => {
+      const { data } = await supabase
+        .from("blog_posts")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (!active) return;
+      setPosts(data ?? []);
+      setLoading(false);
+    };
+
+    void loadPosts();
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   async function togglePublish(post: BlogPost) {
     await supabase.from("blog_posts").update({ published: !post.published }).eq("id", post.id);
@@ -84,7 +104,14 @@ export default function AdminBlog() {
               <div className="flex items-start gap-4 sm:items-center">
                 <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-black/20">
                   {post.cover_image ? (
-                    <img src={post.cover_image} alt={post.title} className="h-full w-full object-cover" />
+                    <Image
+                      src={post.cover_image}
+                      alt={post.title}
+                      width={48}
+                      height={48}
+                      sizes="48px"
+                      className="h-full w-full object-cover"
+                    />
                   ) : (
                     <div className="flex h-full items-center justify-center text-cream/20"><FileText size={20} /></div>
                   )}

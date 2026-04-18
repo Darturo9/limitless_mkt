@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, ReactNode, Children } from "react";
+import { useRef, useEffect, ReactNode } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 
 interface StaggerContainerProps {

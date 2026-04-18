@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { gsap } from "@/lib/gsap";
 import { FadeIn } from "@/components/animations";
 
@@ -44,7 +44,7 @@ export default function TestimonialsSection() {
   const [isAnimating, setIsAnimating] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
-  const nextTestimonial = () => {
+  const nextTestimonial = useCallback(() => {
     if (isAnimating) return;
     setIsAnimating(true);
 
@@ -66,7 +66,7 @@ export default function TestimonialsSection() {
         );
       },
     });
-  };
+  }, [isAnimating]);
 
   const prevTestimonial = () => {
     if (isAnimating) return;
@@ -101,7 +101,7 @@ export default function TestimonialsSection() {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [currentIndex, isAnimating]);
+  }, [nextTestimonial]);
 
   const current = testimonials[currentIndex];
 
@@ -150,7 +150,7 @@ export default function TestimonialsSection() {
             <div
               className={`absolute -top-4 sm:-top-6 left-4 sm:left-8 text-4xl sm:text-6xl ${colors.text} opacity-50`}
             >
-              "
+              &quot;
             </div>
 
             {/* Content */}

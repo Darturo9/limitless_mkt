@@ -80,7 +80,6 @@ export default function AdminDashboard() {
             label="Subir a Galería"
             description="Agrega nuevos proyectos a tu portafolio visual."
             icon={<ImageIcon size={24} />}
-            delay={0.1}
           />
         </div>
       </div>
@@ -114,7 +113,7 @@ function StatCard({ label, value, sub, icon, loading, delay = 0 }: { label: stri
   );
 }
 
-function QuickLink({ href, label, description, icon, delay = 0 }: { href: string; label: string; description: string; icon: React.ReactNode; delay?: number }) {
+function QuickLink({ href, label, description, icon }: { href: string; label: string; description: string; icon: React.ReactNode }) {
   return (
     <Link
       href={href}

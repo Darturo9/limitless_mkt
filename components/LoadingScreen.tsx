@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { gsap } from "@/lib/gsap";
+import Image from "next/image";
 
 export default function LoadingScreen() {
   const [isLoading, setIsLoading] = useState(true);
@@ -82,9 +83,11 @@ export default function LoadingScreen() {
     >
       {/* Logo animado */}
       <div ref={textRef} className="mb-6 sm:mb-8">
-        <img
+        <Image
           src="/images/logos/limitless-logo-blanco.png"
           alt="Limitless MKT"
+          width={320}
+          height={128}
           className="h-16 w-auto sm:h-24 md:h-32"
         />
       </div>

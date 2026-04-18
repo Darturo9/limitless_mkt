@@ -50,6 +50,28 @@ export default function EditBlogPost() {
     setUploading(false);
   }
 
+  async function triggerRevalidate(paths: string[]) {
+    const { data: { session } } = await supabase.auth.getSession();
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+
+    if (session?.access_token) {
+      headers.Authorization = `Bearer ${session.access_token}`;
+    }
+
+    const response = await fetch("/api/revalidate", {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ paths }),
+    });
+
+    if (!response.ok) {
+      const payload = await response.json().catch(() => null);
+      throw new Error(payload?.error || "No se pudo revalidar contenido");
+    }
+  }
+
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
@@ -61,14 +83,14 @@ export default function EditBlogPost() {
       const { error } = await supabase.from("blog_posts").insert(payload);
       if (error) { setMessage("Error: " + error.message); }
       else {
-        await fetch("/api/revalidate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ paths: ["/blog"] }) });
+        await triggerRevalidate(["/blog"]).catch(() => null);
         setMessage("Post creado exitosamente."); setTimeout(() => router.push("/admin/blog"), 1000);
       }
     } else {
       const { error } = await supabase.from("blog_posts").update(payload).eq("id", id);
       if (error) { setMessage("Error: " + error.message); }
       else {
-        await fetch("/api/revalidate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ paths: ["/blog", `/blog/${form.slug}`] }) });
+        await triggerRevalidate(["/blog", `/blog/${form.slug}`]).catch(() => null);
         setMessage("Cambios guardados correctamente.");
       }
     }
@@ -181,7 +203,13 @@ export default function EditBlogPost() {
 
             <div className="group relative aspect-video w-full overflow-hidden rounded-2xl border border-white/10 bg-black/20">
               {form.cover_image ? (
-                <img src={form.cover_image} alt="Cover" className="h-full w-full object-cover" />
+                <Image
+                  src={form.cover_image}
+                  alt="Vista previa de portada"
+                  fill
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  className="object-cover"
+                />
               ) : (
                 <div className="flex h-full flex-col items-center justify-center gap-2 text-cream/20">
                   <ImageIcon size={48} />
@@ -215,7 +243,13 @@ export default function EditBlogPost() {
             <div className="rounded-3xl border border-white/10 bg-white/5 p-0 overflow-hidden shadow-2xl">
               <div className="relative h-48 w-full bg-dark-blue">
                 {form.cover_image ? (
-                  <img src={form.cover_image} className="h-full w-full object-cover" />
+                  <Image
+                    src={form.cover_image}
+                    alt="Previsualización de portada del artículo"
+                    fill
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                    className="object-cover"
+                  />
                 ) : (
                   <div className="flex h-full items-center justify-center text-lime-green/20 text-4xl">✦</div>
                 )}

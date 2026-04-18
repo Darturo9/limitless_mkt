@@ -68,25 +68,14 @@ export default function Navbar() {
             : "bg-transparent py-6"
         }`}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6">
-          {/* Logo */}
-          <MagneticButton strength={0.3}>
-            <Link href="/" className="flex items-center">
-              <img
-                src="/images/logos/limitless-logo-blanco.png"
-                alt="Limitless MKT"
-                className="h-14 w-auto sm:h-16 md:h-18 lg:h-20"
-              />
-            </Link>
-          </MagneticButton>
-
+        <div className="mx-auto relative flex max-w-7xl items-center justify-center px-6">
           {/* Desktop Navigation */}
           <div className="hidden items-center gap-8 md:flex">
             {navLinks.map((link) => (
               <MagneticButton key={link.href} strength={0.2}>
                 <Link
                   href={getHref(link.href)}
-                  className="group relative text-sm font-medium text-cream/80 transition-colors hover:text-cream"
+                  className="group relative text-lg font-semibold text-cream/85 transition-colors hover:text-cream"
                 >
                   {link.label}
                   <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-lime-green transition-all duration-300 group-hover:w-full" />
@@ -95,22 +84,10 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* CTA Button */}
-          <div className="hidden md:block">
-            <MagneticButton strength={0.4}>
-              <Link
-                href={getHref("#contacto")}
-                className="rounded-full bg-lime-green px-6 py-3 text-sm font-semibold text-black transition-all hover:bg-neon-yellow hover:scale-105"
-              >
-                Hablemos
-              </Link>
-            </MagneticButton>
-          </div>
-
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="relative z-50 flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden"
+            className="absolute right-6 z-50 flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden"
             aria-label="Toggle menu"
           >
             <span

@@ -3,7 +3,8 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
-import { ArrowLeft, Save, Upload, Eye, Image as ImageIcon, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
+import { ArrowLeft, Save, Upload, Image as ImageIcon, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
+import Image from "next/image";
 
 export default function EditGalleryItem() {
   const { id } = useParams<{ id: string }>();
@@ -45,6 +46,28 @@ export default function EditGalleryItem() {
     setUploading(false);
   }
 
+  async function triggerRevalidate(paths: string[]) {
+    const { data: { session } } = await supabase.auth.getSession();
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+
+    if (session?.access_token) {
+      headers.Authorization = `Bearer ${session.access_token}`;
+    }
+
+    const response = await fetch("/api/revalidate", {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ paths }),
+    });
+
+    if (!response.ok) {
+      const payload = await response.json().catch(() => null);
+      throw new Error(payload?.error || "No se pudo revalidar contenido");
+    }
+  }
+
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
     if (!form.image_url) { setMessage("Error: Debes subir una imagen."); return; }
@@ -57,14 +80,14 @@ export default function EditGalleryItem() {
       const { error } = await supabase.from("gallery_items").insert(payload);
       if (error) { setMessage("Error: " + error.message); }
       else {
-        await fetch("/api/revalidate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ paths: ["/galeria"] }) });
+        await triggerRevalidate(["/galeria"]).catch(() => null);
         setMessage("Item creado exitosamente."); setTimeout(() => router.push("/admin/galeria"), 1000);
       }
     } else {
       const { error } = await supabase.from("gallery_items").update(payload).eq("id", id);
       if (error) { setMessage("Error: " + error.message); }
       else {
-        await fetch("/api/revalidate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ paths: ["/galeria"] }) });
+        await triggerRevalidate(["/galeria"]).catch(() => null);
         setMessage("Cambios guardados correctamente.");
       }
     }
@@ -169,7 +192,13 @@ export default function EditGalleryItem() {
 
             <div className="group relative aspect-square w-full overflow-hidden rounded-2xl border border-white/10 bg-black/20">
               {form.image_url ? (
-                <img src={form.image_url} alt="Preview" className="h-full w-full object-cover" />
+                <Image
+                  src={form.image_url}
+                  alt="Vista previa del proyecto"
+                  fill
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  className="object-cover"
+                />
               ) : (
                 <div className="flex h-full flex-col items-center justify-center gap-2 text-cream/20">
                   <ImageIcon size={48} />
