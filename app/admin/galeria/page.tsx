@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase, type GalleryItem } from "@/lib/supabase";
 import Link from "next/link";
 import Image from "next/image";
-import { Plus, Image as ImageIcon, Trash2, Eye, Edit, Search } from "lucide-react";
+import { Film, Plus, Image as ImageIcon, Trash2, Eye, Edit, Search } from "lucide-react";
 
 export default function AdminGaleria() {
   const [items, setItems] = useState<GalleryItem[]>([]);
@@ -69,7 +69,7 @@ export default function AdminGaleria() {
           className="group flex items-center gap-2 rounded-xl bg-lime-green px-6 py-3 text-sm font-bold text-black shadow-lg shadow-lime-green/20 transition-all hover:bg-neon-yellow hover:scale-105 hover:shadow-neon-yellow/30"
         >
           <Plus size={18} />
-          Subir Imagen
+          Subir Medio
         </Link>
       </div>
 
@@ -99,15 +99,31 @@ export default function AdminGaleria() {
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filteredItems.map((item) => (
             <div key={item.id} className="group relative flex flex-col overflow-hidden rounded-3xl border border-white/5 bg-white/5 transition-all hover:border-lime-green/30 hover:shadow-2xl hover:shadow-lime-green/5">
-              {/* Image */}
+              {/* Media preview */}
               <div className="relative aspect-square overflow-hidden bg-black/50">
-                <Image
-                  src={item.image_url}
-                  alt={item.title}
-                  fill
-                  sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                />
+                {item.media_type === "video" ? (
+                  item.poster_url ? (
+                    <Image
+                      src={item.poster_url}
+                      alt={`Miniatura del video: ${item.title}`}
+                      fill
+                      sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                  ) : (
+                    <div className="flex h-full items-center justify-center bg-gradient-to-br from-dark-blue via-black to-lime-green/20 text-lime-green">
+                      <Film size={48} aria-hidden="true" />
+                    </div>
+                  )
+                ) : item.image_url ? (
+                  <Image
+                    src={item.image_url}
+                    alt={item.title}
+                    fill
+                    sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                ) : null}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />
 
                 <div className="absolute top-4 right-4">

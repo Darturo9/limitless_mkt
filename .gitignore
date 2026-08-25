@@ -45,3 +45,6 @@ next-env.d.ts
 
 # supabase schema (local reference only)
 /supabase-schema/
+
+# supabase CLI temporary metadata
+/supabase/.temp/

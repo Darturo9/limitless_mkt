@@ -21,7 +21,10 @@ export type GalleryItem = {
   id: string;
   title: string;
   description: string | null;
-  image_url: string;
+  image_url: string | null;
+  media_type: "image" | "video";
+  video_url: string | null;
+  poster_url: string | null;
   category: string | null;
   order_index: number;
   published: boolean;
